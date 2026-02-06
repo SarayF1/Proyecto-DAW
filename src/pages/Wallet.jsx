@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
     Box,
     Typography,
@@ -28,28 +28,54 @@ export default function Wallet() {
 
     const [invoices, setInvoices] = useState([]);
 
-    // Cargar facturas de localStorage
-    useEffect(() => {
+    // 🔹 FUNCIÓN NUEVA (misma lógica que tenías + límite 3)
+    const loadInvoices = useCallback(() => {
         const storedInvoices = localStorage.getItem(INVOICES_KEY);
-        if (storedInvoices) {
-            const invs = JSON.parse(storedInvoices);
+        if (!storedInvoices) return;
 
-            // Pagar facturas automáticamente si no están pagadas
-            const unpaid = invs.filter(inv => !inv.paid);
-            unpaid.forEach(inv => {
-                setSaldo(prev => prev - inv.amount);
-                setHistorial(prev => [
-                    ...prev,
-                    { tipo: "Gasto", descripcion: `Factura ${inv.zona} (${inv.vehicle})`, cantidad: inv.amount, fecha: inv.date }
-                ]);
-            });
+        let invs = JSON.parse(storedInvoices);
 
-            // Marcar todas las facturas como pagadas
-            const updated = invs.map(inv => ({ ...inv, paid: true }));
-            localStorage.setItem(INVOICES_KEY, JSON.stringify(updated));
-            setInvoices(updated);
+        // Ordenar por fecha (más antiguas primero)
+        invs.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        // Mantener solo las 3 más recientes
+        if (invs.length > 3) {
+            invs = invs.slice(invs.length - 3);
         }
+
+        // Pagar facturas automáticamente si no están pagadas
+        invs.filter(inv => !inv.paid).forEach(inv => {
+            setSaldo(prev => prev - inv.amount);
+            setHistorial(prev => [
+                ...prev,
+                {
+                    tipo: "Gasto",
+                    descripcion: `Factura ${inv.zona} (${inv.vehicle})`,
+                    cantidad: inv.amount,
+                    fecha: inv.date
+                }
+            ]);
+        });
+
+        // Marcar todas como pagadas
+        const updated = invs.map(inv => ({ ...inv, paid: true }));
+        localStorage.setItem(INVOICES_KEY, JSON.stringify(updated));
+        setInvoices(updated);
     }, []);
+
+    // 🔹 useEffect MODIFICADO (nada más)
+    useEffect(() => {
+        loadInvoices();
+
+        const onStorageChange = (e) => {
+            if (e.key === INVOICES_KEY) {
+                loadInvoices();
+            }
+        };
+
+        window.addEventListener("storage", onStorageChange);
+        return () => window.removeEventListener("storage", onStorageChange);
+    }, [loadInvoices]);
 
     // Función para agregar dinero
     const agregarDinero = () => {
@@ -60,7 +86,15 @@ export default function Wallet() {
         if (num <= 0) return alert("Solo se permiten cantidades mayores a 0");
 
         setSaldo(prev => prev + num);
-        setHistorial(prev => [...prev, { tipo: "Ingreso", descripcion: "Depósito manual", cantidad: num, fecha: new Date().toLocaleDateString() }]);
+        setHistorial(prev => [
+            ...prev,
+            {
+                tipo: "Ingreso",
+                descripcion: "Depósito manual",
+                cantidad: num,
+                fecha: new Date().toLocaleDateString()
+            }
+        ]);
     };
 
     const handleMonedaChange = (event) => setMoneda(event.target.value);
@@ -81,9 +115,9 @@ export default function Wallet() {
         }
 
         const codigosValidos = {
-            "PRUEBA10": 10,
-            "BONUS5": 5,
-            "REGALO20": 20
+            PRUEBA10: 10,
+            BONUS5: 5,
+            REGALO20: 20
         };
 
         if (codigosValidos[code]) {
@@ -92,7 +126,15 @@ export default function Wallet() {
             } else {
                 const cantidad = codigosValidos[code];
                 setSaldo(prev => prev + cantidad);
-                setHistorial(prev => [...prev, { tipo: "Ingreso", descripcion: `Código ${code}`, cantidad, fecha: new Date().toLocaleDateString() }]);
+                setHistorial(prev => [
+                    ...prev,
+                    {
+                        tipo: "Ingreso",
+                        descripcion: `Código ${code}`,
+                        cantidad,
+                        fecha: new Date().toLocaleDateString()
+                    }
+                ]);
                 setCodigoUsado(prev => [...prev, code]);
                 setMensajePromo(`🎉 Código ${code} aplicado: +${cantidad} € añadidos.`);
             }
@@ -117,13 +159,19 @@ export default function Wallet() {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <Paper sx={{ p: 2, textAlign: "center" }}>
-                            <Typography variant="h6">{historial.filter(h => h.tipo === "Ingreso").reduce((a, b) => a + b.cantidad, 0)} €</Typography>
+                            <Typography variant="h6">
+                                {historial.filter(h => h.tipo === "Ingreso")
+                                    .reduce((a, b) => a + b.cantidad, 0)} €
+                            </Typography>
                             <Typography variant="body2" color="text.secondary">Total ingresado</Typography>
                         </Paper>
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <Paper sx={{ p: 2, textAlign: "center" }}>
-                            <Typography variant="h6">{historial.filter(h => h.tipo === "Gasto").reduce((a, b) => a + b.cantidad, 0)} €</Typography>
+                            <Typography variant="h6">
+                                {historial.filter(h => h.tipo === "Gasto")
+                                    .reduce((a, b) => a + b.cantidad, 0)} €
+                            </Typography>
                             <Typography variant="body2" color="text.secondary">Total gastado</Typography>
                         </Paper>
                     </Grid>
@@ -163,7 +211,11 @@ export default function Wallet() {
                 {/* Facturas */}
                 <Box mt={3}>
                     <Typography variant="h6" mb={1}>Facturas</Typography>
-                    {invoices.length === 0 && <Typography color="text.secondary">No hay facturas pendientes</Typography>}
+                    {invoices.length === 0 && (
+                        <Typography color="text.secondary">
+                            No hay facturas pendientes
+                        </Typography>
+                    )}
                     <Stack spacing={2}>
                         {invoices.map(inv => (
                             <Paper key={inv.id} sx={{ p: 2 }}>
