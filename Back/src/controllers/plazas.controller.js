@@ -5,11 +5,13 @@ export const getPlazas = async (req, res) => {
     const [rows] = await pool.query(`
       SELECT 
         p.idPlaza,
-        p.Tarifa,
         p.Estado_Plaza,
         z.idZona,
         z.nombre AS zona,
-        z.Localidad
+        z.Localidad,
+        z.Tarifa,
+        z.lat,
+        z.lng
       FROM Plaza p
       JOIN Zona z ON p.id_Zona = z.idZona
     `);

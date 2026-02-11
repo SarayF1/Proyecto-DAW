@@ -1,65 +1,107 @@
 // src/pages/auth/Login.jsx
-import { Button, TextField, Box, Typography, Paper } from "@mui/material";
+import { useState } from "react";
+import { Button, TextField, Box, Typography, Paper, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { loginRequest } from "../../services/api";
 
 export default function Login() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const handleLogin = () => {
-        // Simulación de login
-        localStorage.setItem("token", "12345"); // Guardar token
-        navigate("/home"); // Redirigir al home
-    };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-    return (
-        <Box
-            display="flex"
-            height="100vh"
-            justifyContent="center"
-            alignItems="center"
-            bgcolor="#f5f5f5"
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const data = await loginRequest(email, password); // { token }
+
+      if (!data || !data.token) {
+        throw new Error("Respuesta inválida del servidor");
+      }
+
+      // Guardar token REAL del backend
+      localStorage.setItem("token", data.token);
+
+      // Opcional: eliminar datos locales ligados a sesión anónima
+      // localStorage.removeItem("vehicles");
+
+      navigate("/home");
+    } catch (err) {
+      setError(err.message || "Error al iniciar sesión");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Box
+      display="flex"
+      height="100vh"
+      justifyContent="center"
+      alignItems="center"
+      bgcolor="#f5f5f5"
+    >
+      <Paper sx={{ p: 4, width: 360 }}>
+        <Typography variant="h5" mb={3} textAlign="center">
+          MyParking 🚗
+        </Typography>
+
+        {error && (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {error}
+          </Alert>
+        )}
+
+        <form onSubmit={handleSubmit}>
+          <TextField
+            fullWidth
+            label="Correo"
+            margin="normal"
+            variant="outlined"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+
+          <TextField
+            fullWidth
+            label="Contraseña"
+            type="password"
+            margin="normal"
+            variant="outlined"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+
+          <Button
+            fullWidth
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Entrando..." : "Iniciar sesión"}
+          </Button>
+        </form>
+
+        <Button
+          fullWidth
+          variant="text"
+          color="primary"
+          sx={{ mt: 1 }}
+          onClick={() => navigate("/register")}
         >
-            <Paper sx={{ p: 4, width: 350 }}>
-                <Typography variant="h5" mb={3} textAlign="center">
-                    MyParking 🚗
-                </Typography>
-
-                <TextField
-                    fullWidth
-                    label="Correo"
-                    margin="normal"
-                    variant="outlined"
-                />
-                <TextField
-                    fullWidth
-                    label="Contraseña"
-                    type="password"
-                    margin="normal"
-                    variant="outlined"
-                />
-
-                <Button
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    sx={{ mt: 2 }}
-                    type="button"
-                    onClick={handleLogin}
-                >
-                    Iniciar sesión
-                </Button>
-
-                <Button
-                    fullWidth
-                    variant="text"
-                    color="primary"
-                    sx={{ mt: 1 }}
-                    type="button"
-                    onClick={() => navigate("/register")}
-                >
-                    Crear cuenta
-                </Button>
-            </Paper>
-        </Box>
-    );
+          Crear cuenta
+        </Button>
+      </Paper>
+    </Box>
+  );
 }

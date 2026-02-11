@@ -1,256 +1,258 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
-    Box,
-    Typography,
-    Paper,
-    Button,
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
-    TextField,
-    Alert,
-    Grid,
-    Stack
+  Box,
+  Typography,
+  Paper,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  TextField,
+  Alert,
+  Grid,
+  Stack,
 } from "@mui/material";
 
-const INVOICES_KEY = "invoices";
+const API_URL = "http://localhost:3001/api";
 
 export default function Wallet() {
-    const [saldo, setSaldo] = useState(12.5);
-    const [moneda, setMoneda] = useState("EUR");
-    const [codigo, setCodigo] = useState("");
-    const [mensajePromo, setMensajePromo] = useState("");
-    const [codigoUsado, setCodigoUsado] = useState([]);
-    const [historial, setHistorial] = useState([
-        { tipo: "Gasto", descripcion: "Parking Centro", cantidad: 2, fecha: "2026-01-15" }
-    ]);
+  const [saldo, setSaldo] = useState(0);
+  const [moneda, setMoneda] = useState("EUR");
+  const [movimientos, setMovimientos] = useState([]);
+  const [codigo, setCodigo] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [error, setError] = useState("");
+  const token = localStorage.getItem("token");
 
-    const [invoices, setInvoices] = useState([]);
+  // Función para cargar monedero y movimientos (reutilizable)
+  const fetchMonedero = useCallback(async () => {
+    if (!token) {
+      setError("No autenticado");
+      return;
+    }
 
-    // 🔹 FUNCIÓN NUEVA (misma lógica que tenías + límite 3)
-    const loadInvoices = useCallback(() => {
-        const storedInvoices = localStorage.getItem(INVOICES_KEY);
-        if (!storedInvoices) return;
+    try {
+      setError("");
+      const resMonedero = await fetch(`${API_URL}/me/monedero`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!resMonedero.ok) {
+        const err = await resMonedero.json().catch(() => ({}));
+        throw new Error(err.error || "Error al cargar monedero");
+      }
+      const monedero = await resMonedero.json();
 
-        let invs = JSON.parse(storedInvoices);
+      const resMovs = await fetch(`${API_URL}/me/monedero/movimientos`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (!resMovs.ok) {
+        const err = await resMovs.json().catch(() => ({}));
+        throw new Error(err.error || "Error al cargar movimientos");
+      }
+      const movs = await resMovs.json();
 
-        // Ordenar por fecha (más antiguas primero)
-        invs.sort((a, b) => new Date(a.date) - new Date(b.date));
+      setSaldo(Number(monedero.saldo));
+      setMoneda(monedero.moneda);
+      setMovimientos(Array.isArray(movs) ? movs : []);
+      setError("");
+    } catch (err) {
+      console.error("fetchMonedero:", err);
+      setError(err.message || "No se pudo cargar el monedero");
+    }
+  }, [token]);
 
-        // Mantener solo las 3 más recientes
-        if (invs.length > 3) {
-            invs = invs.slice(invs.length - 3);
-        }
+  // Cargar al montar y cuando cambie token
+  useEffect(() => {
+    fetchMonedero();
+  }, [fetchMonedero]);
 
-        // Pagar facturas automáticamente si no están pagadas
-        invs.filter(inv => !inv.paid).forEach(inv => {
-            setSaldo(prev => prev - inv.amount);
-            setHistorial(prev => [
-                ...prev,
-                {
-                    tipo: "Gasto",
-                    descripcion: `Factura ${inv.zona} (${inv.vehicle})`,
-                    cantidad: inv.amount,
-                    fecha: inv.date
-                }
-            ]);
-        });
+  /* ===========================
+     Recarga manual
+     =========================== */
+  const agregarDinero = async () => {
+    if (!token) {
+      setError("No autenticado");
+      return;
+    }
 
-        // Marcar todas como pagadas
-        const updated = invs.map(inv => ({ ...inv, paid: true }));
-        localStorage.setItem(INVOICES_KEY, JSON.stringify(updated));
-        setInvoices(updated);
-    }, []);
+    const cantidad = prompt("Cantidad a recargar:");
+    const num = Number(cantidad);
+    if (!num || num <= 0) return;
 
-    // 🔹 useEffect MODIFICADO (nada más)
-    useEffect(() => {
-        loadInvoices();
+    try {
+      setError("");
+      const res = await fetch(`${API_URL}/me/monedero/recarga`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ cantidad: num }),
+      });
 
-        const onStorageChange = (e) => {
-            if (e.key === INVOICES_KEY) {
-                loadInvoices();
-            }
-        };
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Error al recargar");
 
-        window.addEventListener("storage", onStorageChange);
-        return () => window.removeEventListener("storage", onStorageChange);
-    }, [loadInvoices]);
+      setSaldo(Number(data.saldo));
+      setMensaje("Recarga realizada correctamente");
+      setTimeout(() => setMensaje(""), 3000);
 
-    // Función para agregar dinero
-    const agregarDinero = () => {
-        const cantidad = prompt("Ingresa la cantidad a agregar (solo números positivos):");
-        const num = parseFloat(cantidad);
+      // refrescar movimientos (para ver el nuevo ingreso)
+      await fetchMonedero();
+    } catch (err) {
+      console.error("agregarDinero:", err);
+      setError(err.message || "Error al recargar saldo");
+      setMensaje("");
+    }
+  };
 
-        if (isNaN(num)) return alert("Cantidad inválida");
-        if (num <= 0) return alert("Solo se permiten cantidades mayores a 0");
+  /* ===========================
+     Código promocional
+     =========================== */
+  const aplicarCodigo = async () => {
+    if (!token) {
+      setError("No autenticado");
+      return;
+    }
+    if (!codigo) return;
 
-        setSaldo(prev => prev + num);
-        setHistorial(prev => [
-            ...prev,
-            {
-                tipo: "Ingreso",
-                descripcion: "Depósito manual",
-                cantidad: num,
-                fecha: new Date().toLocaleDateString()
-            }
-        ]);
-    };
+    try {
+      setError("");
+      const res = await fetch(`${API_URL}/me/monedero/codigo`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ codigo }),
+      });
 
-    const handleMonedaChange = (event) => setMoneda(event.target.value);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Código inválido");
 
-    const convertirSaldo = () => {
-        switch (moneda) {
-            case "USD": return (saldo * 1.1).toFixed(2);
-            case "GBP": return (saldo * 0.88).toFixed(2);
-            default: return saldo.toFixed(2);
-        }
-    };
+      setSaldo(Number(data.saldo));
+      setMensaje(`Código ${codigo} aplicado`);
+      setCodigo("");
+      setTimeout(() => setMensaje(""), 3000);
 
-    const aplicarCodigo = () => {
-        const code = codigo.toUpperCase().trim();
-        if (!code) {
-            setMensajePromo("Introduce un código promocional.");
-            return;
-        }
+      // refrescar movimientos (para ver el ingreso del código)
+      await fetchMonedero();
+    } catch (err) {
+      console.error("aplicarCodigo:", err);
+      setError(err.message || "Código inválido");
+      setMensaje("");
+    }
+  };
 
-        const codigosValidos = {
-            PRUEBA10: 10,
-            BONUS5: 5,
-            REGALO20: 20
-        };
+  /* ===========================
+     Totales
+     =========================== */
+  const totalIngresos = movimientos
+    .filter((m) => m.tipo === "INGRESO")
+    .reduce((a, b) => a + Number(b.cantidad), 0);
 
-        if (codigosValidos[code]) {
-            if (codigoUsado.includes(code)) {
-                setMensajePromo(`❌ El código ${code} ya ha sido utilizado.`);
-            } else {
-                const cantidad = codigosValidos[code];
-                setSaldo(prev => prev + cantidad);
-                setHistorial(prev => [
-                    ...prev,
-                    {
-                        tipo: "Ingreso",
-                        descripcion: `Código ${code}`,
-                        cantidad,
-                        fecha: new Date().toLocaleDateString()
-                    }
-                ]);
-                setCodigoUsado(prev => [...prev, code]);
-                setMensajePromo(`🎉 Código ${code} aplicado: +${cantidad} € añadidos.`);
-            }
-        } else {
-            setMensajePromo("❌ Código promocional no válido.");
-        }
-        setCodigo("");
-    };
+  const totalGastos = movimientos
+    .filter((m) => m.tipo === "GASTO")
+    .reduce((a, b) => a + Number(b.cantidad), 0);
 
-    return (
-        <Box p={3}>
-            <Typography variant="h4" mb={2}>Monedero</Typography>
+  return (
+    <Box p={3}>
+      <Typography variant="h4" mb={2}>
+        Monedero
+      </Typography>
 
-            <Paper sx={{ p: 3 }}>
-                {/* Resumen */}
-                <Grid container spacing={2}>
-                    <Grid item xs={12} sm={4}>
-                        <Paper sx={{ p: 2, textAlign: "center" }}>
-                            <Typography variant="h6">{convertirSaldo()} {moneda}</Typography>
-                            <Typography variant="body2" color="text.secondary">Saldo actual</Typography>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <Paper sx={{ p: 2, textAlign: "center" }}>
-                            <Typography variant="h6">
-                                {historial.filter(h => h.tipo === "Ingreso")
-                                    .reduce((a, b) => a + b.cantidad, 0)} €
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">Total ingresado</Typography>
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <Paper sx={{ p: 2, textAlign: "center" }}>
-                            <Typography variant="h6">
-                                {historial.filter(h => h.tipo === "Gasto")
-                                    .reduce((a, b) => a + b.cantidad, 0)} €
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">Total gastado</Typography>
-                        </Paper>
-                    </Grid>
-                </Grid>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
+      {mensaje && (
+        <Alert severity="success" sx={{ mb: 2 }}>
+          {mensaje}
+        </Alert>
+      )}
 
-                {/* Acciones */}
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mt={3} mb={3}>
-                    <Button variant="contained" onClick={agregarDinero}>Agregar dinero</Button>
+      <Paper sx={{ p: 3 }}>
+        {/* Resumen */}
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={4}>
+            <Paper sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h6">
+                {Number(saldo).toFixed(2)} {moneda}
+              </Typography>
 
-                    <FormControl sx={{ minWidth: 120 }}>
-                        <InputLabel>Moneda</InputLabel>
-                        <Select value={moneda} label="Moneda" onChange={handleMonedaChange}>
-                            <MenuItem value="EUR">€ EUR</MenuItem>
-                            <MenuItem value="USD">$ USD</MenuItem>
-                            <MenuItem value="GBP">£ GBP</MenuItem>
-                        </Select>
-                    </FormControl>
-                </Stack>
-
-                {/* Código promocional */}
-                <Box mt={3}>
-                    <Typography variant="h6" mb={1}>Código promocional</Typography>
-                    <Stack direction={{ xs: "column", sm: "row" }} spacing={2} mb={2}>
-                        <TextField
-                            label="Introduce tu código"
-                            value={codigo}
-                            onChange={e => setCodigo(e.target.value)}
-                            size="small"
-                        />
-                        <Button variant="contained" color="secondary" onClick={aplicarCodigo}>
-                            Aplicar
-                        </Button>
-                    </Stack>
-                    {mensajePromo && <Alert severity="info" sx={{ mb: 2 }}>{mensajePromo}</Alert>}
-                </Box>
-
-                {/* Facturas */}
-                <Box mt={3}>
-                    <Typography variant="h6" mb={1}>Facturas</Typography>
-                    {invoices.length === 0 && (
-                        <Typography color="text.secondary">
-                            No hay facturas pendientes
-                        </Typography>
-                    )}
-                    <Stack spacing={2}>
-                        {invoices.map(inv => (
-                            <Paper key={inv.id} sx={{ p: 2 }}>
-                                <Typography fontWeight={600}>{inv.zona}</Typography>
-                                <Typography variant="body2">Vehículo: {inv.vehicle}</Typography>
-                                <Typography variant="body2">Tiempo: {inv.minutes} min</Typography>
-                                <Typography variant="body2">Fecha: {inv.date}</Typography>
-                                <Typography fontWeight={600} mt={1}>{inv.amount} €</Typography>
-                                <Typography color="success.main" variant="body2">
-                                    Pagado automáticamente
-                                </Typography>
-                            </Paper>
-                        ))}
-                    </Stack>
-                </Box>
-
-                {/* Historial */}
-                <Box mt={3}>
-                    <Typography variant="h6" mb={1}>Historial de movimientos</Typography>
-                    <Paper sx={{ maxHeight: 250, overflowY: "auto", p: 2 }}>
-                        {historial.length === 0 ? (
-                            <Typography color="text.secondary">No hay movimientos aún</Typography>
-                        ) : (
-                            historial.map((h, i) => (
-                                <Stack key={i} direction="row" justifyContent="space-between" mb={1}>
-                                    <Typography>{h.descripcion}</Typography>
-                                    <Typography color={h.tipo === "Ingreso" ? "success.main" : "error.main"}>
-                                        {h.tipo === "Ingreso" ? "+" : "-"}{h.cantidad} €
-                                    </Typography>
-                                </Stack>
-                            ))
-                        )}
-                    </Paper>
-                </Box>
+              <Typography variant="body2">Saldo actual</Typography>
             </Paper>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Paper sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h6">{totalIngresos.toFixed(2)} €</Typography>
+              <Typography variant="body2">Total ingresado</Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={12} sm={4}>
+            <Paper sx={{ p: 2, textAlign: "center" }}>
+              <Typography variant="h6">{totalGastos.toFixed(2)} €</Typography>
+              <Typography variant="body2">Total gastado</Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+
+        {/* Acciones */}
+        <Stack direction="row" spacing={2} mt={3}>
+          <Button variant="contained" onClick={agregarDinero}>
+            Agregar dinero
+          </Button>
+
+          <FormControl sx={{ minWidth: 120 }}>
+            <InputLabel>Moneda</InputLabel>
+            <Select value={moneda} label="Moneda" disabled>
+              <MenuItem value="EUR">€ EUR</MenuItem>
+              <MenuItem value="USD">$ USD</MenuItem>
+              <MenuItem value="GBP">£ GBP</MenuItem>
+            </Select>
+          </FormControl>
+        </Stack>
+
+        {/* Código promo */}
+        <Box mt={3}>
+          <Typography variant="h6">Código promocional</Typography>
+          <Stack direction="row" spacing={2} mt={1}>
+            <TextField
+              size="small"
+              label="Código"
+              value={codigo}
+              onChange={(e) => setCodigo(e.target.value)}
+            />
+            <Button variant="contained" onClick={aplicarCodigo}>
+              Aplicar
+            </Button>
+          </Stack>
         </Box>
-    );
+
+        {/* Historial */}
+        <Box mt={4}>
+          <Typography variant="h6" mb={1}>
+            Historial de movimientos
+          </Typography>
+          <Paper sx={{ maxHeight: 250, overflowY: "auto", p: 2 }}>
+            {movimientos.length === 0 ? (
+              <Typography color="text.secondary">No hay movimientos</Typography>
+            ) : (
+              movimientos.map((m) => (
+                <Stack key={m.idMovimiento} direction="row" justifyContent="space-between" mb={1}>
+                  <Typography>{m.descripcion}</Typography>
+                  <Typography color={m.tipo === "INGRESO" ? "success.main" : "error.main"}>
+                    {m.tipo === "INGRESO" ? "+" : "-"}
+                    {Number(m.cantidad).toFixed(2)} €
+                  </Typography>
+                </Stack>
+              ))
+            )}
+          </Paper>
+        </Box>
+      </Paper>
+    </Box>
+  );
 }
