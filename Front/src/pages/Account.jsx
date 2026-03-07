@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://myparking-backend.onrender.com/api";
 
 export default function Account() {
   const navigate = useNavigate();

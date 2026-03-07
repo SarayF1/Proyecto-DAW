@@ -29,7 +29,7 @@ import {
   createVehiculo,
   updateVehiculo,
   deleteVehiculo,
-} from "../services/api"; // asegúrate de que exportes estas funciones
+} from "../services/api"; 
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState([]);

@@ -14,7 +14,7 @@ import {
   Stack,
 } from "@mui/material";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://myparking-backend.onrender.com/api";
 
 export default function Wallet() {
   const [saldo, setSaldo] = useState(0);

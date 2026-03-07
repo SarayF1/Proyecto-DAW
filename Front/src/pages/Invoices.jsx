@@ -9,7 +9,7 @@ import {
   Box,
 } from "@mui/material";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "https://myparking-backend.onrender.com/api";
 
 export default function Invoices() {
   const [facturas, setFacturas] = useState([]);

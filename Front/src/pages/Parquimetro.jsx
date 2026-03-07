@@ -131,7 +131,7 @@ export default function Parquimetro() {
 
       const zonaIdNum = Number(selectedZona.id);
       const plazaLibre = plazas.find((p) => {
-        const pZona = Number(p.id_Zona ?? p.idZona ?? p.idZona ?? p.idZona);
+        const pZona = Number(p.id_Zona ?? p.idZona ?? p.id);  // zona a la que pertenece la plaza
         const estado = (p.Estado_Plaza ?? p.estado ?? p.status ?? "").toString().toUpperCase();
         return pZona === zonaIdNum && (estado === "LIBRE" || estado === "FREE");
       });
@@ -146,7 +146,7 @@ export default function Parquimetro() {
       if (!token) throw new Error("Debes iniciar sesión para reservar.");
 
       // POST a /api/reservas (backend se encargará de monedero/movimientos)
-      const res = await fetch("http://localhost:3001/api/reservas", {
+      const res = await fetch("https://myparking-backend.onrender.com/api/reservas", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
