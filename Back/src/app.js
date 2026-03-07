@@ -17,7 +17,10 @@ const app = express();
 // CORS
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://myparking-frontend.onrender.com"
+    ],
     credentials: true,
   })
 );
