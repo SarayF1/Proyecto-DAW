@@ -30,7 +30,7 @@ export default function AppRouter() {
                 <Route path="settings" element={<Settings />} />
             </Route>
 
-            {/* Ruta comodín para 404 */}
+            {/* Ruta para 404 */}
             <Route path="*" element={<h1>404 - Página no encontrada</h1>} />
         </Routes>
     );

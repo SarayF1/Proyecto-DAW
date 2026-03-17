@@ -32,7 +32,7 @@ export const register = async (payload) => {
   return handleResponse(res);
 };
 
-// LOGIN (ya existía; lo dejo con manejo consistente)
+// LOGIN (ya existía; se deja con manejo consistente de errores)
 export const loginRequest = async (email, password) => {
   const response = await fetch(`${API_URL}/api/auth/login`, {
     method: "POST",
@@ -84,6 +84,7 @@ export default {
 
 
 // VEHÍCULOS (CRUD)
+// OBTENER
 export const getVehiculos = async () => {
   const token = localStorage.getItem("token");
   const res = await fetch(`${API_URL}/api/me/vehiculos`, {
@@ -92,6 +93,7 @@ export const getVehiculos = async () => {
   return handleResponse(res);
 };
 
+// CREAR
 export const createVehiculo = async (payload) => {
   const token = localStorage.getItem("token");
   const res = await fetch(`${API_URL}/api/me/vehiculos`, {
@@ -102,6 +104,7 @@ export const createVehiculo = async (payload) => {
   return handleResponse(res);
 };
 
+// UPDATE
 export const updateVehiculo = async (id, payload) => {
   const token = localStorage.getItem("token");
   const res = await fetch(`${API_URL}/api/me/vehiculos/${id}`, {
@@ -112,6 +115,7 @@ export const updateVehiculo = async (id, payload) => {
   return handleResponse(res);
 };
 
+//DELETE
 export const deleteVehiculo = async (id) => {
   const token = localStorage.getItem("token");
   const res = await fetch(`${API_URL}/api/me/vehiculos/${id}`, {

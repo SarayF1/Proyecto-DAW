@@ -1,5 +1,7 @@
-// src/pages/Account.jsx
+// Hooks principales de React
 import { useEffect, useState } from "react";
+
+// Componentes de interfaz (UI)
 import {
   Box,
   Typography,
@@ -12,30 +14,38 @@ import {
   CircularProgress,
   Stack,
 } from "@mui/material";
+
+// Hook de navegación
 import { useNavigate } from "react-router-dom";
 
+// URL base del backend 
 const API_URL = "https://myparking-backend.onrender.com/api";
 
 export default function Account() {
   const navigate = useNavigate();
 
+  // Estado del usuario autenticado
   const [user, setUser] = useState(null); // { nombre, apellido1, apellido2, email, plan, idUsuario }
+  // Estados de carga y error del perfil
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   // historial separado
-  const [ingresos, setIngresos] = useState([]);
-  const [gastosConReserva, setGastosConReserva] = useState([]);
+  const [ingresos, setIngresos] = useState([]); // movimientos de tipo INGRESO
+  const [gastosConReserva, setGastosConReserva] = useState([]);   // movimientos de tipo GASTO que tienen idReserva asociado (vinculados a reserva)
 
+  // Estados de carga/error del historial
   const [historyLoading, setHistoryLoading] = useState(false);
   const [historyError, setHistoryError] = useState("");
 
-  // Fallback local user
+  // Fallback en localstorage
   const loadFallbackUser = () => {
     try {
       const raw = localStorage.getItem("user");
       if (!raw) return null;
       const parsed = JSON.parse(raw);
+
+      // Normaliza distintos nombres (para cambios en la BD o inconsistencias)
       return {
         nombre: parsed.nombre || parsed.Nombre || parsed.name || "",
         apellido1: parsed.apellido1 || parsed.Apellido1 || parsed.lastName || "",
@@ -49,6 +59,7 @@ export default function Account() {
     }
   };
 
+  // Normalización de datos del backend para perfil -- PENDIENTE UNIFICAR CON LO DE ARRIBA (CODE SMELL DE DUPLICACION)
   const normalizeProfile = (p) => {
     if (!p) return null;
     return {
@@ -61,14 +72,15 @@ export default function Account() {
     };
   };
 
+  // Cargar perfil del usuario
   useEffect(() => {
-    let mounted = true;
+    let mounted = true;   // evita setState si el componente se desmonta durante la carga
     const token = localStorage.getItem("token");
 
     const fetchProfile = async () => {
       setLoading(true);
       setError("");
-      if (!token) {
+      if (!token) {       // Si no hay token se intenta fallback local
         if (mounted) {
           setUser(loadFallbackUser());
           setLoading(false);
@@ -81,8 +93,10 @@ export default function Account() {
           headers: { Authorization: `Bearer ${token}` },
         });
 
+        // Manejo de errores HTTP
         if (!res.ok) {
           if (res.status === 401) {
+            // Token inválido → limpiar sesión y fallback local
             localStorage.removeItem("token");
             if (mounted) setUser(loadFallbackUser());
             setLoading(false);
@@ -126,7 +140,7 @@ export default function Account() {
       setHistoryLoading(true);
       setHistoryError("");
       try {
-        // traer movimientos y reservas en paralelo
+        // traer movimientos y reservas en paralelo - OPTIMIZCION
         const [movRes, revRes] = await Promise.allSettled([
           fetch(`${API_URL}/me/monedero/movimientos`, {
             headers: { Authorization: `Bearer ${token}` },
@@ -187,7 +201,7 @@ export default function Account() {
           // normalizar campos comunes
           const tipo = (m.tipo ?? m.TIPO ?? "").toString().toUpperCase();
           const cantidad = Number(m.cantidad ?? m.CANTIDAD ?? m.amount ?? 0);
-          // id de reserva puede venir como id_Reserva, idReserva, id_reserva
+          // NORMALIZAcION id de reserva
           const idReserva =
             m.id_Reserva ?? m.idReserva ?? m.id_reserva ?? m.id_reserv ?? null;
 
@@ -245,8 +259,9 @@ export default function Account() {
     return () => {
       mounted = false;
     };
-  }, [user]); // disparar cuando se cargue user (opcional)
+  }, [user]); // disparar cuando se cargue user
 
+  // AYUDAS UI
   const displayName = () => {
     if (!user) return "Usuario no registrado";
     const parts = [];
@@ -275,9 +290,11 @@ export default function Account() {
     }
   };
 
+  // navegación a login/register
   const handleGoToLogin = () => navigate("/");
   const handleGoToRegister = () => navigate("/register");
 
+  // loader principal
   if (loading) {
     return (
       <Box p={3} display="flex" justifyContent="center" alignItems="center" minHeight="200px">
@@ -286,6 +303,7 @@ export default function Account() {
     );
   }
 
+  // Formatea fecha (acepta date o string)
   const fmtDate = (d) => {
     try {
       return d instanceof Date ? d.toLocaleString() : new Date(d).toLocaleString();
@@ -294,6 +312,7 @@ export default function Account() {
     }
   };
 
+  // Renderizado de estado de reserva en gastos vinculados y normalización de estados con chips de colores
   const renderReservaChip = (estado) => {
     if (!estado) return <Chip label="DESCONOCIDO" size="small" />;
     const e = String(estado).toUpperCase();
@@ -307,6 +326,7 @@ export default function Account() {
       <Paper sx={{ p: 4, maxWidth: 900, width: "100%", boxShadow: 3, borderRadius: 2 }}>
         {/* Header con avatar */}
         <Box display="flex" alignItems="center" mb={3}>
+          {/* Si no hay avatar, se usa la inicial del nombre */}
           <Avatar sx={{ width: 60, height: 60, mr: 2, bgcolor: "primary.main" }}>{avatarInitials()}</Avatar>
           <Box>
             <Typography variant="h5">{displayName()}</Typography>
@@ -318,6 +338,7 @@ export default function Account() {
 
         <Divider sx={{ mb: 3 }} />
 
+        {/* Si no hay usuario autenticado, mostrar CTA para login/registro */}
         {!user && (
           <Box textAlign="center" mb={3}>
             <Typography mb={2}>No estás autenticado.</Typography>
@@ -330,6 +351,7 @@ export default function Account() {
           </Box>
         )}
 
+        {/* Si hay usuario, mostrar datos y su historial */}
         {user && (
           <>
             {/* Información personal */}
@@ -394,6 +416,7 @@ export default function Account() {
                                   {fmtDate(inc.fecha)}
                                 </Typography>
                               </Box>
+                              {/* Cantidad positiva para ingresos - verde */}
                               <Typography color="success.main" sx={{ fontWeight: 700 }}>
                                 +{Number(inc.cantidad).toFixed(2)} €
                               </Typography>
@@ -424,9 +447,11 @@ export default function Account() {
                               </Box>
 
                               <Box textAlign="right">
+                                {/* Cantidad negativa para gastos */}
                                 <Typography sx={{ fontWeight: 700, color: "error.main" }}>
                                   -{Number(g.cantidad).toFixed(2)} €
                                 </Typography>
+                                {/* chip de color para el estado de la reserva */}
                                 <Box mt={0.5}>
                                   {renderReservaChip(g.estadoReserva)}
                                 </Box>
@@ -441,7 +466,7 @@ export default function Account() {
               )}
             </Box>
 
-            {/* Botón de actualizar (temporal) */}
+            {/* Botón de actualizar (pendiente de implementar) */}
             <Box textAlign="center" mt={2}>
               <Button variant="contained" color="primary" onClick={() => alert("Funcionalidad pendiente")}>
                 Actualizar datos
@@ -450,6 +475,7 @@ export default function Account() {
           </>
         )}
 
+        {/* global error (carga de perfil) */}
         {error && (
           <Typography color="error" mt={2}>
             {error}
