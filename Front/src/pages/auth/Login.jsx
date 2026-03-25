@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Button, TextField, Box, Typography, Paper, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../../services/api";
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -39,6 +41,7 @@ export default function Login() {
   };
 
   return (
+    
     <Box
       display="flex"
       height="100vh"
@@ -101,6 +104,14 @@ export default function Login() {
         >
           Crear cuenta
         </Button>
+
+        <GoogleLogin onSuccess={(creds) => { 
+        console.log(jwtDecode(creds.credential)); 
+        localStorage.setItem("token",creds.credential);
+        navigate("/home") 
+
+        }} 
+        onError={() => console.log("Log failed")}> </GoogleLogin>
       </Paper>
     </Box>
   );

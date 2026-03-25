@@ -1,4 +1,5 @@
 //Nuestro backend se encuentra desplegado en Render, por lo que la URL base es la siguiente:
+import { GoogleLogin } from "@react-oauth/google";
 const API_URL = "https://myparking-backend.onrender.com";
 
 async function handleResponse(res) {
