@@ -137,10 +137,10 @@ export const crearReserva = async (req, res) => {
     /* 4️⃣ Crear reserva */
     const [reservaResult] = await conn.query(
       `
-      INSERT INTO Reserva (Estado, Fecha_inicio, Fecha_fin, id_Usuario, id_Plaza)
-      VALUES ('EN CURSO', ?, ?, ?, ?)
+      INSERT INTO Reserva (Estado, Fecha_inicio, Fecha_fin, id_Usuario, id_Plaza, id_Vehiculo)
+      VALUES ('EN CURSO', ?, ?, ?, ?, ?)
       `,
-      [Fecha_inicio, Fecha_fin, idUsuario, idPlaza]
+      [Fecha_inicio, Fecha_fin, idUsuario, idPlaza, idVehiculo]
     );
 
     const idReserva = reservaResult.insertId;
