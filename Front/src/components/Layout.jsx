@@ -44,10 +44,20 @@ export default function Layout() {
             </Drawer>
 
             {/* Contenido principal */}
-            <Box flex={1} display="flex" flexDirection="column">
+            <Box
+                flex={1}
+                display="flex"
+                flexDirection="column"
+                sx={{ bgcolor: "background.default", minHeight: "100vh" }}
+            >
                 {/* Navbar con botón para abrir Sidebar en móvil */}
                 <Navbar onMenuClick={handleDrawerToggle} />
-                <Box p={3} flex={1} overflow="auto">
+                <Box
+                    p={3}
+                    flex={1}
+                    overflow="auto"
+                    sx={{ bgcolor: "background.default" }}
+                >
                     <Outlet /> {/* Aquí se renderizan las páginas hijas */}
                 </Box>
             </Box>

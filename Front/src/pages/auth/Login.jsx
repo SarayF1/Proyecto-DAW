@@ -44,7 +44,7 @@ export default function Login() {
       height="100vh"
       justifyContent="center"
       alignItems="center"
-      bgcolor="#f5f5f5"
+      bgcolor="#b8d4e3"
     >
       <Paper sx={{ p: 4, width: 360 }}>
         <Typography variant="h5" mb={3} textAlign="center">

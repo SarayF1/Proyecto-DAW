@@ -74,7 +74,7 @@ export default function Register() {
   };
 
   return (
-    <Box display="flex" height="100vh" justifyContent="center" alignItems="center" bgcolor="#f5f5f5">
+    <Box display="flex" height="100vh" justifyContent="center" alignItems="center" bgcolor="#b8d4e3">
       <Paper sx={{ p: 4, width: 360 }}>
         <Typography variant="h5" mb={3} textAlign="center">
           Crear cuenta 🚗

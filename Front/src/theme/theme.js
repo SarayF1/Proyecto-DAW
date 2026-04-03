@@ -11,7 +11,7 @@ export const theme = createTheme({
             main: "#7c4dff",
         },
         background: {
-            default: "#0f172a",
+            default: "#b5d5e2",
             paper: "#111827",
         },
     },
