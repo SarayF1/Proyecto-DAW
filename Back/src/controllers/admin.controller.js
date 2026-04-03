@@ -34,7 +34,6 @@ export const getReservasActivas = async (req, res) => {
         v.Matricula AS vehiculo_matricula,
         v.Marca AS vehiculo_marca,
         v.Modelo AS vehiculo_modelo,
-        v.Color AS vehiculo_color,
         
         -- Estado de pago (si está vencida)
         CASE
