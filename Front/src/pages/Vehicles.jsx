@@ -248,7 +248,8 @@ export default function Vehicles() {
             sx={{
               "& .MuiOutlinedInput-root": {
                 "& fieldset": {
-                  borderColor: "black", // borde negro
+                  borderColor: "black",
+                  borderWidth: "2px",
                 },
                 "&:hover fieldset": {
                   borderColor: "black",
@@ -257,9 +258,12 @@ export default function Vehicles() {
                   borderColor: "black",
                 },
               },
+              "& input": {
+                fontWeight: "bold", // TEXTO ESCRITO en negrita
+              },
               "& input::placeholder": {
                 fontWeight: "bold", // placeholder en negrita
-                opacity: 1, // importante para que se vea bien
+                opacity: 1,
               },
             }}
           />
