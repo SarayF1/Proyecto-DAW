@@ -16,6 +16,7 @@ const menu = [
     { label: "Monedero", path: "/wallet" },
     { label: "Facturas", path: "/invoices" },
     { label: "Configuración", path: "/settings" },
+    { label: "🔒 Admin", path: "/admin" },
 ];
 
 const drawerWidth = 240;
@@ -25,20 +26,36 @@ const MenuContent = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const token = localStorage.getItem("token");
+    let isAdmin = false;
+
+    try {
+        if (token) {
+            const payload = JSON.parse(atob(token.split(".")[1]));
+            isAdmin = payload?.rol === "ADMIN";
+        }
+    } catch {
+        isAdmin = false;
+    }
+
     return (
         <>
-            <Toolbar /> {/* Espacio para que no tape el AppBar */}
+            <Toolbar />
             <Divider />
             <List>
-                {menu.map((item) => (
-                    <ListItemButton
-                        key={item.path}
-                        selected={location.pathname === item.path}
-                        onClick={() => navigate(item.path)}
-                    >
-                        <ListItemText primary={item.label} />
-                    </ListItemButton>
-                ))}
+                {menu.map((item) => {
+                    if (item.path === "/admin" && !isAdmin) return null;
+
+                    return (
+                        <ListItemButton
+                            key={item.path}
+                            selected={location.pathname === item.path}
+                            onClick={() => navigate(item.path)}
+                        >
+                            <ListItemText primary={item.label} />
+                        </ListItemButton>
+                    );
+                })}
             </List>
         </>
     );
@@ -69,3 +86,4 @@ export default function Sidebar({ noDrawer = false }) {
         </Drawer>
     );
 }
+

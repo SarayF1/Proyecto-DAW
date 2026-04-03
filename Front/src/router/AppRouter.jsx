@@ -8,9 +8,10 @@ import Vehicles from "../pages/Vehicles";
 import Wallet from "../pages/Wallet";
 import Invoices from "../pages/Invoices";
 import Settings from "../pages/Settings";
-import Parquimetro from "../pages/Parquimetro"; 
+import Parquimetro from "../pages/Parquimetro";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Layout from "../components/Layout";
+import AdminPanel from "../pages/admin/AdminPanel";
 
 export default function AppRouter() {
     return (
@@ -28,6 +29,7 @@ export default function AppRouter() {
                 <Route path="wallet" element={<Wallet />} />
                 <Route path="invoices" element={<Invoices />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="admin" element={<AdminPanel />} />
             </Route>
 
             {/* Ruta para 404 */}

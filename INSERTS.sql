@@ -31,3 +31,20 @@ VALUES
 ('LIBRE', 3),
 ('LIBRE', 3),
 ('LIBRE', 3);
+
+
+-- =====================================================
+-- INSERT · Usuario administrador
+-- =====================================================
+INSERT INTO Usuarios (Nombre, Apellido1, Apellido2, Rol, Email, Contraseña)
+VALUES (
+  'Admin',
+  'Sistema',
+  NULL,
+  'ADMIN',
+  'admin@myparking.com',
+  '$2b$10$x8.pMBajzZ3.QXbDT0q7vuRjud.8KBVqKupYE4wu9MDyhxdYuTlYW'  -- Contraseña: "admin123"
+);
+
+INSERT INTO Monedero (id_Usuario, saldo, moneda)
+VALUES (LAST_INSERT_ID(), 0.00, 'EUR');

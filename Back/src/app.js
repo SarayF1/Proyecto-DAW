@@ -11,6 +11,7 @@ import vehiculosRoutes from "./routes/vehiculos.routes.js";
 import monederoRoutes from "./routes/monedero.routes.js";
 import meRoutes from "./routes/me.routes.js";
 
+import adminRoutes from "./routes/admin.routes.js";
 
 const app = express();
 
@@ -36,6 +37,8 @@ app.use("/api/reservas", reservasRoutes);
 app.use("/api/me/vehiculos", vehiculosRoutes);
 app.use("/api/me", monederoRoutes);
 app.use("/api/me", meRoutes);
+
+app.use("/api/admin", adminRoutes);
 
 // CRON PARA LIMPIAR RESERVAS EXPIRADAS CADA MINUTO
 cron.schedule("*/1 * * * *", async () => {
