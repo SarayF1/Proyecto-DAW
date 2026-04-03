@@ -29,7 +29,7 @@ import {
   createVehiculo,
   updateVehiculo,
   deleteVehiculo,
-} from "../services/api"; 
+} from "../services/api";
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState([]);
@@ -241,9 +241,26 @@ export default function Vehicles() {
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <SearchIcon />
+                  <SearchIcon sx={{ color: "black" }} />
                 </InputAdornment>
               ),
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "black", // borde negro
+                },
+                "&:hover fieldset": {
+                  borderColor: "black",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "black",
+                },
+              },
+              "& input::placeholder": {
+                fontWeight: "bold", // placeholder en negrita
+                opacity: 1, // importante para que se vea bien
+              },
             }}
           />
         )
