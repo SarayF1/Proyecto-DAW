@@ -258,12 +258,14 @@ export default function Vehicles() {
                   borderColor: "black",
                 },
               },
-              "& input": {
-                fontWeight: "bold", // TEXTO ESCRITO en negrita
+              "& .MuiInputBase-input": {
+                fontWeight: "bold",
+                color: "black",
               },
-              "& input::placeholder": {
-                fontWeight: "bold", // placeholder en negrita
+              "& .MuiInputBase-input::placeholder": {
+                fontWeight: "bold",
                 opacity: 1,
+                color: "black",
               },
             }}
           />
