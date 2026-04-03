@@ -20,10 +20,38 @@ const menu = [
 
 const drawerWidth = 240;
 
-export default function Sidebar() {
+// ✅ Componente MenuContent - DEBE estar ANTES de Sidebar
+const MenuContent = () => {
     const navigate = useNavigate();
-    const location = useLocation(); // Para resaltar la ruta activa
+    const location = useLocation();
 
+    return (
+        <>
+            <Toolbar /> {/* Espacio para que no tape el AppBar */}
+            <Divider />
+            <List>
+                {menu.map((item) => (
+                    <ListItemButton
+                        key={item.path}
+                        selected={location.pathname === item.path}
+                        onClick={() => navigate(item.path)}
+                    >
+                        <ListItemText primary={item.label} />
+                    </ListItemButton>
+                ))}
+            </List>
+        </>
+    );
+};
+
+// ✅ Componente principal Sidebar
+export default function Sidebar({ noDrawer = false }) {
+    // Si noDrawer es true → solo retorna el contenido del menú
+    if (noDrawer) {
+        return <MenuContent />;
+    }
+
+    // Si no → retorna el contenido dentro del Drawer permanente
     return (
         <Drawer
             variant="permanent"
@@ -37,19 +65,7 @@ export default function Sidebar() {
                 display: { xs: "none", sm: "block" }, // oculto en móviles
             }}
         >
-            <Toolbar /> {/* Espacio para que no tape el AppBar */}
-            <Divider />
-            <List>
-                {menu.map((item) => (
-                    <ListItemButton
-                        key={item.path}
-                        selected={location.pathname === item.path} // Resalta activo
-                        onClick={() => navigate(item.path)}
-                    >
-                        <ListItemText primary={item.label} />
-                    </ListItemButton>
-                ))}
-            </List>
+            <MenuContent />
         </Drawer>
     );
 }

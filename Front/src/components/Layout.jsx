@@ -40,7 +40,7 @@ export default function Layout() {
                     [`& .MuiDrawer-paper`]: { width: 240, boxSizing: "border-box" },
                 }}
             >
-                <Sidebar />
+                <Sidebar noDrawer /> {/* Solo el contenido del menú, sin el Drawer */}
             </Drawer>
 
             {/* Contenido principal */}
