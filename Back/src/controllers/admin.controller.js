@@ -49,7 +49,7 @@ export const getReservasActivas = async (req, res) => {
       JOIN Plaza p ON r.id_Plaza = p.idPlaza
       JOIN Zona z ON p.id_Zona = z.idZona
       JOIN Usuarios u ON r.id_Usuario = u.idUsuario
-      LEFT JOIN Vehiculo v ON v.id_Usuario = u.idUsuario AND v.Estado = 'ACTIVO'
+      LEFT JOIN Vehiculos v ON v.id_Usuario = u.idUsuario
       
       WHERE r.Estado = 'EN CURSO'
       ORDER BY z.nombre, r.Fecha_fin ASC
