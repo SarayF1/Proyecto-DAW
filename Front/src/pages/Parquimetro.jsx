@@ -156,6 +156,7 @@ export default function Parquimetro() {
           idPlaza: Number(plazaLibre.idPlaza ?? plazaLibre.id ?? plazaLibre.idPlaza ?? plazaLibre.id),
           Fecha_inicio: inicio,
           Fecha_fin: fin,
+          idVehiculo: Number(selectedVehicle.id),
         }),
       });
 
