@@ -82,10 +82,10 @@ export const getMisReservas = async (req, res) => {
 
 
 export const crearReserva = async (req, res) => {
-  const { idPlaza, Fecha_inicio, Fecha_fin } = req.body;
+  const { idPlaza, Fecha_inicio, Fecha_fin, idVehiculo} = req.body;
   const idUsuario = req.user.idUsuario;
 
-  if (!idPlaza || !Fecha_inicio || !Fecha_fin) {
+  if (!idPlaza || !Fecha_inicio || !Fecha_fin || !idVehiculo) {
     return res.status(400).json({ error: "Datos incompletos" });
   }
 

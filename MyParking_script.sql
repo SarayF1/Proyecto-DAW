@@ -2,6 +2,7 @@ drop database if exists MyParking;
 create database MyParking;
 use MyParking;
 
+-- Para redeploys: modificar lo de arriba, en railway se usa la bd "railway" 
 
 create table Usuarios(
 idUsuario int primary  key auto_increment, 
@@ -86,11 +87,14 @@ idReserva  int primary  key auto_increment,
 Estado enum("FINALIZADA", "EN CURSO") NOT NULL,
 Fecha_inicio datetime NOT NULL,
 Fecha_fin datetime NOT NULL,
+
 id_Usuario int NOT NULL, 
 id_Plaza int NOT NULL, 
+id_Vehiculo INT NOT NULL,
 
 foreign key (id_Plaza) references Plaza(idPlaza), 
-foreign key (id_Usuario) references Usuarios(idUsuario)
+foreign key (id_Usuario) references Usuarios(idUsuario),
+foreign key (id_Vehiculo) references Vehiculos(idVehiculo)
 );
 
 
