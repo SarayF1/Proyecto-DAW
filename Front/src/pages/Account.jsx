@@ -13,6 +13,7 @@ import {
   Grid,
   CircularProgress,
   Stack,
+  TextField,
 } from "@mui/material";
 
 // Hook de navegación
@@ -29,6 +30,15 @@ export default function Account() {
   // Estados de carga y error del perfil
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [editMode, setEditMode] = useState(false);
+
+  const [formData, setFormData] = useState({
+  nombre: "",
+  apellido1: "",
+  apellido2: "",
+  email: "",
+  password: "",
+  });
 
   // historial separado
   const [ingresos, setIngresos] = useState([]); // movimientos de tipo INGRESO
@@ -129,6 +139,18 @@ export default function Account() {
       mounted = false;
     };
   }, []);
+
+  useEffect(() => {
+  if (user) {
+    setFormData({
+      nombre: user.nombre || "",
+      apellido1: user.apellido1 || "",
+      apellido2: user.apellido2 || "",
+      email: user.email || "",
+      password: "",
+    });
+  }
+}, [user]);
 
   // Cargar historial real: movimientos del monedero + reservas
   useEffect(() => {
@@ -321,6 +343,46 @@ export default function Account() {
     return <Chip label={String(estado)} size="small" />;
   };
 
+  const handleUpdate = async () => {
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await fetch(`${API_URL}/me`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        Nombre: formData.nombre,
+        Apellido1: formData.apellido1,
+        Apellido2: formData.apellido2,
+        Email: formData.email,
+        Password: formData.password,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Error al actualizar");
+    }
+
+    const updatedUser = {
+      ...user,
+      ...formData,
+    };
+
+    setUser(updatedUser);
+    localStorage.setItem("user", JSON.stringify(updatedUser));
+
+    setEditMode(false);
+    alert("Datos actualizados correctamente");
+  } catch (err) {
+    alert(err.message);
+  }
+};
+
   return (
     <Box p={3} display="flex" justifyContent="center">
       <Paper sx={{ p: 4, maxWidth: 900, width: "100%", boxShadow: 3, borderRadius: 2 }}>
@@ -354,25 +416,97 @@ export default function Account() {
         {/* Si hay usuario, mostrar datos y su historial */}
         {user && (
           <>
-            {/* Información personal */}
-            <Box mb={3}>
-              <Typography variant="h6" mb={1}>
-                Información personal
-              </Typography>
-              <Divider sx={{ my: 1 }} />
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
-                  <Typography>
-                    <strong>Nombre:</strong> {user.nombre || "No registrado"}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Typography>
-                    <strong>Email:</strong> {user.email || "No registrado"}
-                  </Typography>
-                </Grid>
-              </Grid>
-            </Box>
+  {/* Información personal */}
+  <Box mb={3}>
+  <Typography variant="h6" mb={1}>
+    Información personal
+  </Typography>
+  <Divider sx={{ my: 1 }} />
+
+  <Grid container spacing={2}>
+    <Grid item xs={12} sm={6}>
+      {editMode ? (
+        <TextField
+          fullWidth
+          label="Nombre"
+          value={formData.nombre}
+          onChange={(e) =>
+            setFormData({ ...formData, nombre: e.target.value })
+          }
+        />
+      ) : (
+        <Typography>
+          <strong>Nombre:</strong> {user.nombre || "No registrado"}
+        </Typography>
+      )}
+    </Grid>
+
+    <Grid item xs={12} sm={6}>
+      {editMode ? (
+        <TextField
+          fullWidth
+          label="Apellido 1"
+          value={formData.apellido1}
+          onChange={(e) =>
+            setFormData({ ...formData, apellido1: e.target.value })
+          }
+        />
+      ) : (
+        <Typography>
+          <strong>Apellido 1:</strong> {user.apellido1 || "No registrado"}
+        </Typography>
+      )}
+    </Grid>
+
+    <Grid item xs={12} sm={6}>
+      {editMode ? (
+        <TextField
+          fullWidth
+          label="Apellido 2"
+          value={formData.apellido2}
+          onChange={(e) =>
+            setFormData({ ...formData, apellido2: e.target.value })
+          }
+        />
+      ) : (
+        <Typography>
+          <strong>Apellido 2:</strong> {user.apellido2 || "No registrado"}
+        </Typography>
+      )}
+    </Grid>
+
+    <Grid item xs={12} sm={6}>
+      {editMode ? (
+        <TextField
+          fullWidth
+          label="Email"
+          value={formData.email}
+          onChange={(e) =>
+            setFormData({ ...formData, email: e.target.value })
+          }
+        />
+      ) : (
+        <Typography>
+          <strong>Email:</strong> {user.email || "No registrado"}
+        </Typography>
+      )}
+    </Grid>
+
+    {editMode && (
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          type="password"
+          label="Nueva contraseña"
+          value={formData.password}
+          onChange={(e) =>
+            setFormData({ ...formData, password: e.target.value })
+          }
+        />
+      </Grid>
+    )}
+  </Grid>
+</Box>
 
             {/* Plan */}
             <Box mb={3}>
@@ -468,9 +602,11 @@ export default function Account() {
 
             {/* Botón de actualizar (pendiente de implementar) */}
             <Box textAlign="center" mt={2}>
-              <Button variant="contained" color="primary" onClick={() => alert("Funcionalidad pendiente")}>
-                Actualizar datos
-              </Button>
+              <Button variant="contained" color="primary" 
+              onClick={editMode ? handleUpdate : () => setEditMode(true)}
+                    >
+  {editMode ? "Guardar cambios" : "Actualizar datos"}
+</Button>
             </Box>
           </>
         )}
