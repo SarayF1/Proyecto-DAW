@@ -1,6 +1,6 @@
 // Hooks principales de React
 import { useEffect, useState } from "react";
-
+// import "../App.css"
 // Componentes de interfaz (UI)
 import {
   Box,

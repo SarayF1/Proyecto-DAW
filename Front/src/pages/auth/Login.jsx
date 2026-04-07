@@ -39,74 +39,111 @@ export default function Login() {
     }
   };
 
-  return (
+
+return (
+  <Box
+    display="flex"
+    minHeight="100vh"
+    width="100%"
+    justifyContent="center"
+    alignItems="center"
+    bgcolor="#b8d4e3"
+    sx={{
+      px: 2,
+      overflowX: "hidden",
+      flexDirection: {
+        xs: "column",
+        md: "row",
+      },
+      gap: 3,
+    }}
+  >
     <Box
-      display="flex"
-      height="100vh"
-      justifyContent="center"
-      alignItems="center"
-      bgcolor="#b8d4e3"
+      component="img"
+      src={logo}
+      alt="Logo"
+      sx={{
+        width: {
+          xs: "220px",
+          sm: "200px",
+          md: "240px",
+        },
+        padding: "120px",
+        height: "auto",
+        maxWidth: "100%",
+      }}
+    />
+
+    <Paper
+      sx={{
+        p: 4,
+        width: {
+          xs: "100%",
+          sm: 360,
+        },
+        maxWidth: 360,
+      }}
     >
+      <Typography
+        variant="h5"
+        mb={3}
+        textAlign="center"
+        paddingBottom={2}
+      >
+        Iniciar Sesión
+      </Typography>
 
-       <div>
-            <img src={logo} alt="Logo"  height={200} className="p0" style={{padding: "10px 200px"}}/>
-        </div>
-      <Paper sx={{ p: 4, width: 360 }}>
-        <Typography variant="h5" mb={3} textAlign="center" paddingBottom={2} >
-          MyParking
-        </Typography>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
 
-        {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
-            {error}
-          </Alert>
-        )}
+      <form onSubmit={handleSubmit}>
+        <TextField
+          fullWidth
+          label="Correo"
+          margin="normal"
+          variant="outlined"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-        <form onSubmit={handleSubmit}>
-          <TextField
-            fullWidth
-            label="Correo"
-            margin="normal"
-            variant="outlined"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-
-          <TextField
-            fullWidth
-            label="Contraseña"
-            type="password"
-            margin="normal"
-            variant="outlined"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 3 }}
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? "Entrando..." : "Iniciar sesión"}
-          </Button>
-        </form>
+        <TextField
+          fullWidth
+          label="Contraseña"
+          type="password"
+          margin="normal"
+          variant="outlined"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
 
         <Button
           fullWidth
-          variant="text"
+          variant="contained"
           color="primary"
-          sx={{ mt: 1 }}
-          onClick={() => navigate("/register")}
+          sx={{ mt: 3 }}
+          type="submit"
+          disabled={loading}
         >
-          Crear cuenta
+          {loading ? "Entrando..." : "Iniciar sesión"}
         </Button>
-      </Paper>
-    </Box>
-  );
+      </form>
+
+      <Button
+        fullWidth
+        variant="text"
+        color="primary"
+        sx={{ mt: 1 }}
+        onClick={() => navigate("/register")}
+      >
+        Crear cuenta
+      </Button>
+    </Paper>
+  </Box>
+);
 }
