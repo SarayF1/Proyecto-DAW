@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button, TextField, Box, Typography, Paper, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../../services/api";
+import logo from "../../assets/logo.png"
 
 export default function Login() {
   const navigate = useNavigate();
@@ -46,9 +47,13 @@ export default function Login() {
       alignItems="center"
       bgcolor="#b8d4e3"
     >
+
+       <div>
+            <img src={logo} alt="Logo"  height={200} className="p0" style={{padding: "10px 200px"}}/>
+        </div>
       <Paper sx={{ p: 4, width: 360 }}>
-        <Typography variant="h5" mb={3} textAlign="center">
-          MyParking 🚗
+        <Typography variant="h5" mb={3} textAlign="center" paddingBottom={2} >
+          MyParking
         </Typography>
 
         {error && (
@@ -84,7 +89,7 @@ export default function Login() {
             fullWidth
             variant="contained"
             color="primary"
-            sx={{ mt: 2 }}
+            sx={{ mt: 3 }}
             type="submit"
             disabled={loading}
           >

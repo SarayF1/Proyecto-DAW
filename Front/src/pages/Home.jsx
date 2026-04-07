@@ -8,6 +8,16 @@ import AnunciosDinamicos from "../components/AnunciosDinamicos";
 import { useEffect, useState } from "react";
 import { getZonas } from "../services/api";
 
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  List,
+  ListItem,
+  ListItemText,
+  Snackbar,
+} from "@mui/material";
+
 // Icono personalizado para parkings
 const parkingIcon = new L.Icon({
   iconUrl: "https://cdn-icons-png.flaticon.com/512/854/854878.png",
@@ -19,7 +29,52 @@ const parkingIcon = new L.Icon({
 export default function Home() {
   const navigate = useNavigate();
   const [zonas, setZonas] = useState([]);
-  const [setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [openParkingModal, setOpenParkingModal] = useState(false);
+  const [ubicacionGuardada, setUbicacionGuardada] = useState(false);
+
+  const handleOpenParkings = async () => {
+  try {
+    const res = await fetch(
+      "https://myparking-backend.onrender.com/api/zonas"
+    );
+
+    const data = await res.json();
+
+    setZonas(data);
+    setOpenParkingModal(true);
+  } catch (error) {
+    console.error("Error cargando parkings:", error);
+    alert("No se pudieron cargar los parkings");
+  }
+};
+
+const handleGuardarUbicacion = () => {
+  if (!navigator.geolocation) {
+    alert("Tu navegador no soporta geolocalización");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const ubicacion = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude,
+      };
+
+      localStorage.setItem(
+        "ubicacionUsuario",
+        JSON.stringify(ubicacion)
+      );
+
+      setUbicacionGuardada(true);
+    },
+    (error) => {
+      console.error(error);
+      alert("No se pudo obtener la ubicación");
+    }
+  );
+};
 
   useEffect(() => {
     const loadZonas = async () => {
@@ -60,7 +115,11 @@ export default function Home() {
               onClick={() => {
                 if (btn.path) {
                   navigate(btn.path);
-                } else {
+                } else if(btn.label == "Parkings") {
+                handleOpenParkings();
+                } else if(btn.label == "Guardar ubicación") {
+                  handleGuardarUbicacion();
+                }else{
                   alert("Este botón no tiene funcionalidad actualmente.");
                 }
               }}
@@ -130,7 +189,48 @@ export default function Home() {
             ))}
         </MapContainer>
       </Paper>
+<Dialog
+  open={openParkingModal}
+  onClose={() => setOpenParkingModal(false)}
+  fullWidth
+  maxWidth="sm"
+>
+  <DialogTitle>Parkings disponibles</DialogTitle>
 
+  <DialogContent>
+   <List>
+  {zonas.map((zona) => (
+    <ListItem
+      key={zona.idZona}
+      button
+      onClick={() => {
+        setOpenParkingModal(false);
+        navigate(`/parquimetro?idZona=${zona.idZona}`);
+      }}
+      sx={{
+        cursor: "pointer",
+        borderRadius: 1,
+        "&:hover": {
+          color: "#ffff",
+          backgroundColor: "#2a2cbe",
+        },
+      }}
+    >
+      <ListItemText
+        primary={zona.nombre}
+        secondary={`Localidad: ${zona.Localidad} | Tarifa: ${zona.Tarifa} €/h`}
+      />
+    </ListItem>
+  ))}
+</List>
+  </DialogContent>
+</Dialog>
+      <Snackbar
+        open={ubicacionGuardada}
+        autoHideDuration={3000}
+        onClose={() => setUbicacionGuardada(false)}
+        message="Ubicación guardada correctamente"
+      />
       <AnunciosDinamicos />
     </Box>
   );
