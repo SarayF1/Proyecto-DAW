@@ -1,6 +1,10 @@
 // src/pages/Vehicles.jsx
 import { useState, useEffect } from "react";
 import {
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
   Box,
   Typography,
   Button,
@@ -30,6 +34,19 @@ import {
   updateVehiculo,
   deleteVehiculo,
 } from "../services/api";
+
+const carCatalog = {
+  Toyota: ["Corolla", "Yaris", "RAV4", "C-HR"],
+  BMW: ["Serie 1", "Serie 3", "X1", "X5"],
+  Audi: ["A1", "A3", "A4", "Q3", "Q5"],
+  Mercedes: ["Clase A", "Clase C", "GLA", "GLE"],
+  Seat: ["Ibiza", "León", "Arona", "Ateca"],
+  Volkswagen: ["Golf", "Polo", "Tiguan", "Passat"],
+  Renault: ["Clio", "Megane", "Captur"],
+  Peugeot: ["208", "308", "3008"],
+  Ford: ["Fiesta", "Focus", "Kuga"],
+  Tesla: ["Model 3", "Model Y", "Model S"],
+};
 
 export default function Vehicles() {
   const [vehicles, setVehicles] = useState([]);
@@ -371,8 +388,47 @@ export default function Vehicles() {
         <DialogContent>
           <Stack spacing={2} mt={1}>
             <TextField label="Matrícula" value={form.plate} onChange={(e) => setForm({ ...form, plate: e.target.value.toUpperCase() })} />
-            <TextField label="Marca" value={form.brand} onChange={(e) => setForm({ ...form, brand: e.target.value })} />
-            <TextField label="Modelo" value={form.model} onChange={(e) => setForm({ ...form, model: e.target.value })} />
+            <FormControl fullWidth>
+  <InputLabel>Marca</InputLabel>
+  <Select
+    value={form.brand}
+    label="Marca"
+    onChange={(e) =>
+      setForm({
+        ...form,
+        brand: e.target.value,
+        model: "",
+      })
+    }
+  >
+    {Object.keys(carCatalog).map((brand) => (
+      <MenuItem key={brand} value={brand}>
+        {brand}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
+
+<FormControl fullWidth>
+  <InputLabel>Modelo</InputLabel>
+  <Select
+    value={form.model}
+    label="Modelo"
+    disabled={!form.brand}
+    onChange={(e) =>
+      setForm({
+        ...form,
+        model: e.target.value,
+      })
+    }
+  >
+    {(carCatalog[form.brand] || []).map((model) => (
+      <MenuItem key={model} value={model}>
+        {model}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
             <TextField label="Año" type="number" value={form.year} onChange={(e) => setForm({ ...form, year: e.target.value })} />
           </Stack>
         </DialogContent>

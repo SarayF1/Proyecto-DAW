@@ -68,8 +68,8 @@ Importe: ${total.toFixed(2)} €
   const qrImage = await generarQR(qrText);
 
   // LOGO
-  doc.addImage(logoBase64, "PNG", 15, 10, 30, 30);
-
+  doc.addImage(logoBase64, "PNG", 15, 10, 50, 30);
+  
   // CABECERA
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
