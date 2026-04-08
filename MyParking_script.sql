@@ -8,6 +8,7 @@ use MyParking;
 -- Port: 10558
 -- Username: root
 
+-- password de conexion en railway, whatsapp o documentacion
 
 create table Usuarios(
 idUsuario int primary  key auto_increment, 
