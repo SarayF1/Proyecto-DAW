@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import {
   Select,
+  Autocomplete,
   MenuItem,
   FormControl,
   InputLabel,
@@ -388,47 +389,35 @@ export default function Vehicles() {
         <DialogContent>
           <Stack spacing={2} mt={1}>
             <TextField label="Matrícula" value={form.plate} onChange={(e) => setForm({ ...form, plate: e.target.value.toUpperCase() })} />
-            <FormControl fullWidth>
-  <InputLabel>Marca</InputLabel>
-  <Select
-    value={form.brand}
-    label="Marca"
-    onChange={(e) =>
-      setForm({
-        ...form,
-        brand: e.target.value,
-        model: "",
-      })
-    }
-  >
-    {Object.keys(carCatalog).map((brand) => (
-      <MenuItem key={brand} value={brand}>
-        {brand}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
+            <Autocomplete
+  options={Object.keys(carCatalog)}
+  value={form.brand}
+  onChange={(event, newValue) =>
+    setForm({
+      ...form,
+      brand: newValue || "",
+      model: "",
+    })
+  }
+  renderInput={(params) => (
+    <TextField {...params} label="Marca" />
+  )}
+/>
 
-<FormControl fullWidth>
-  <InputLabel>Modelo</InputLabel>
-  <Select
-    value={form.model}
-    label="Modelo"
-    disabled={!form.brand}
-    onChange={(e) =>
-      setForm({
-        ...form,
-        model: e.target.value,
-      })
-    }
-  >
-    {(carCatalog[form.brand] || []).map((model) => (
-      <MenuItem key={model} value={model}>
-        {model}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
+<Autocomplete
+  options={carCatalog[form.brand] || []}
+  value={form.model}
+  disabled={!form.brand}
+  onChange={(event, newValue) =>
+    setForm({
+      ...form,
+      model: newValue || "",
+    })
+  }
+  renderInput={(params) => (
+    <TextField {...params} label="Modelo" />
+  )}
+/>
             <TextField label="Año" type="number" value={form.year} onChange={(e) => setForm({ ...form, year: e.target.value })} />
           </Stack>
         </DialogContent>
