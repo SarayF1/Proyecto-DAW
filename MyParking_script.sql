@@ -3,6 +3,11 @@ create database MyParking;
 use MyParking;
 
 -- Para redeploys: modificar lo de arriba, en railway se usa la bd "railway" 
+-- Use: railway;
+-- Hostname: interchange.proxy.rlwy.net
+-- Port: 10558
+-- Username: root
+
 
 create table Usuarios(
 idUsuario int primary  key auto_increment, 
