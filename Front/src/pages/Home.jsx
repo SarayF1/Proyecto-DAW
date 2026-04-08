@@ -100,7 +100,7 @@ const handleGuardarUbicacion = () => {
 
   return (
     <Box p={3}>
-      <Typography variant="h4" mb={2}>
+      <Typography variant="h4" mb={2} fontWeight="bold">
         Mapa de Parkings
       </Typography>
 

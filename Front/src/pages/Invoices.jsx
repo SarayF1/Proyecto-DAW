@@ -193,7 +193,7 @@ Importe: ${total.toFixed(2)} €
 
   return (
     <Box p={3}>
-      <Typography variant="h4" mb={2}>
+      <Typography variant="h4" mb={2} fontWeight="bold">
         Facturas
       </Typography>
 
@@ -206,7 +206,7 @@ Importe: ${total.toFixed(2)} €
       {error && <Alert severity="error">{error}</Alert>}
 
       {!loading && !error && facturas.length === 0 && (
-        <Typography color="text.secondary">
+        <Typography color="text.secondary" fontWeight="bold">
           No hay facturas todavía
         </Typography>
       )}

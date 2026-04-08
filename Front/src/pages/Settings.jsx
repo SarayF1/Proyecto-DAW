@@ -61,7 +61,7 @@ export default function Settings() {
 
         {/* ================= NOTIFICACIONES ================= */}
         <Paper sx={{ p: 3, borderRadius: 3 }}>
-          <Typography variant="h6" mb={2}>
+          <Typography variant="h5" mb={2} fontWeight="bold">
             Notificaciones
           </Typography>
 
@@ -120,7 +120,7 @@ export default function Settings() {
 
         {/* ================= PREFERENCIAS ================= */}
 <Paper sx={{ p: 3, borderRadius: 3 }}>
-  <Typography variant="h6" mb={2}>
+  <Typography variant="h5" mb={2} fontWeight="bold">
     Preferencias y privacidad
   </Typography>
 
@@ -199,7 +199,7 @@ export default function Settings() {
 
         {/* ================= LEGAL ================= */}
 <Paper sx={{ p: 3, borderRadius: 3 }}>
-  <Typography variant="h6" mb={2}>
+  <Typography variant="h5" mb={2} fontWeight="bold">
     Información legal
   </Typography>
 
