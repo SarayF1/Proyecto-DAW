@@ -266,7 +266,7 @@ export default function Vehicles() {
         <Typography variant="h4" fontWeight={600} mb={1}>
           Mis Vehículos ({vehicles.length})
         </Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpenAdd}>
+        <Button variant="contained" startIcon={<AddIcon />} onClick={handleOpenAdd} fontWeight="bold">
           Añadir vehículo
         </Button>
       </Stack>
