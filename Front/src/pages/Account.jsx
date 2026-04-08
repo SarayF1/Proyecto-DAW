@@ -345,6 +345,31 @@ export default function Account() {
 
   const handleUpdate = async () => {
   const token = localStorage.getItem("token");
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const textRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/;
+
+  if (!textRegex.test(formData.nombre)) {
+    alert("Nombre no válido");
+    return;
+  }
+
+  if (!textRegex.test(formData.apellido1)) {
+    alert("Apellido 1 no válido");
+    return;
+  }
+
+  if (
+    formData.apellido2 &&
+    !textRegex.test(formData.apellido2)
+  ) {
+    alert("Apellido 2 no válido");
+    return;
+  }
+
+  if (!emailRegex.test(formData.email)) {
+    alert("Correo electrónico no válido");
+    return;
+  }
 
   try {
     const res = await fetch(`${API_URL}/me`, {

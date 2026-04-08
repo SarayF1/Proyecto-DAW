@@ -98,6 +98,40 @@ export default function Vehicles() {
       return;
     }
 
+      const matriculaNormalizada = form.plate
+    .trim()
+    .replace(/\s+/g, "")
+    .toUpperCase();
+
+  const regexMatricula = /^[A-Z0-9-]{4,15}$/;
+  const textRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$/;
+
+  if (!regexMatricula.test(matriculaNormalizada)) {
+    setError("La matrícula no es válida.");
+    return;
+  }
+
+  if (!textRegex.test(form.brand)) {
+    setError("La marca contiene caracteres no válidos.");
+    return;
+  }
+
+  if (!textRegex.test(form.model)) {
+    setError("El modelo contiene caracteres no válidos.");
+    return;
+  }
+
+  const yearNumber = Number(form.year);
+
+  if (
+    isNaN(yearNumber) ||
+    yearNumber < 1900 ||
+    yearNumber > new Date().getFullYear() + 1
+  ) {
+    setError("El año no es válido.");
+    return;
+  }
+
     setSaving(true);
     setError("");
 
@@ -105,7 +139,7 @@ export default function Vehicles() {
       if (editingVehicle) {
         // actualizar
         const updated = await updateVehiculo(editingVehicle.id, {
-          plate: form.plate,
+          plate: matriculaNormalizada,
           brand: form.brand,
           model: form.model,
           year: form.year,
@@ -125,7 +159,7 @@ export default function Vehicles() {
       } else {
         // crear
         const created = await createVehiculo({
-          plate: form.plate,
+          plate: matriculaNormalizada,
           brand: form.brand,
           model: form.model,
           year: form.year,
