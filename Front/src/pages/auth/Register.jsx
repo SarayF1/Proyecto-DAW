@@ -1,8 +1,9 @@
 // src/pages/auth/Register.jsx
 import { useState } from "react";
-import { Button, TextField, Box, Typography, Paper } from "@mui/material";
+import { Button, TextField, Box, Typography, Paper, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { register as registerUser, loginRequest } from "../../services/api";
+import logo from "../../assets/logo.png"; // Importamos el logo para mantener consistencia
 
 export default function Register() {
   const navigate = useNavigate();
@@ -33,7 +34,6 @@ export default function Register() {
     try {
       setLoading(true);
 
-      // 1) Crear usuario
       await registerUser({
         Nombre: nombre,
         Apellido1: apellido1,
@@ -42,25 +42,19 @@ export default function Register() {
         Password: password,
       });
 
-      // 2) Login automático
       const loginResp = await loginRequest(email, password);
 
-      // 3) Guardar token y redirigir
       if (loginResp?.token) {
         localStorage.setItem("token", loginResp.token);
       } else if (loginResp?.data?.token) {
-        // por si la estructura fuera { data: { token } }
         localStorage.setItem("token", loginResp.data.token);
       } else {
-        // si no hay token, lanzar error para mostrar mensaje
         throw new Error("Registro correcto, fallo al iniciar sesión automáticamente.");
       }
 
       navigate("/home");
     } catch (err) {
       console.error("Error registro:", err);
-
-      // Manejo de mensajes provenientes de fetch/handleResponse
       const msg = err.message || err?.response?.data?.error || "Error al crear la cuenta. Inténtalo más tarde.";
 
       if (msg.includes("409") || msg.toLowerCase().includes("ya existe") || err?.response?.status === 409) {
@@ -74,47 +68,116 @@ export default function Register() {
   };
 
   return (
-    <Box display="flex" height="100vh" justifyContent="center" alignItems="center" bgcolor="#b8d4e3">
-      <Paper sx={{ p: 4, width: 360 }}>
-        <Typography variant="h5" mb={3} textAlign="center">
-          Crear cuenta 🚗
-        </Typography>
-
-        {error && (
-          <Typography color="error" mb={2} textAlign="center">
-            {error}
-          </Typography>
-        )}
-
-        <form onSubmit={handleRegister}>
-          <TextField fullWidth label="Nombre" margin="normal" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-
-          <TextField fullWidth label="Primer apellido" margin="normal" value={apellido1} onChange={(e) => setApellido1(e.target.value)} />
-
-          <TextField fullWidth label="Segundo apellido" margin="normal" value={apellido2} onChange={(e) => setApellido2(e.target.value)} />
-
-          <TextField fullWidth label="Correo" type="email" margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} />
-
-          <TextField fullWidth label="Contraseña" type="password" margin="normal" value={password} onChange={(e) => setPassword(e.target.value)} />
-
-          <TextField
-            fullWidth
-            label="Confirmar contraseña"
-            type="password"
-            margin="normal"
-            value={confirmarPassword}
-            onChange={(e) => setConfirmarPassword(e.target.value)}
+    <Box
+      sx={{
+        minHeight: "100vh",
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        background: "linear-gradient(135deg, #fdfbfb 0%, #b8d4e3 100%)",
+        py: { xs: 4, md: 0 }, // Padding vertical en móviles para hacer scroll cómodamente
+        px: 2,
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row-reverse" }, // Invertimos el orden para que sea dinámico respecto al login
+          alignItems: "center",
+          justifyContent: "center",
+          gap: { xs: 4, md: 8 },
+          width: "100%",
+          maxWidth: "900px",
+        }}
+      >
+        {/* Contenedor del Logo */}
+        <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <Box
+            component="img"
+            src={logo}
+            alt="MyParking Logo"
+            sx={{
+              width: { xs: "120px", sm: "160px", md: "220px" },
+              height: "auto",
+              display: "block",
+              filter: "drop-shadow(0px 4px 6px rgba(0,0,0,0.1))",
+            }}
           />
+        </Box>
 
-          <Button fullWidth variant="contained" sx={{ mt: 2 }} type="submit" disabled={loading}>
-            {loading ? "Creando cuenta..." : "Registrarse"}
+        {/* Tarjeta del Formulario */}
+        <Paper
+          elevation={6}
+          sx={{
+            p: { xs: 3, sm: 5 },
+            width: "100%",
+            maxWidth: 450, // Un poco más ancho porque tiene campos en la misma línea
+            borderRadius: 3,
+          }}
+        >
+          <Typography variant="h5" fontWeight="bold" textAlign="center" color="primary.main" mb={1}>
+            Crear cuenta 
+          </Typography>
+          <Typography variant="body2" color="text.secondary" textAlign="center" mb={3}>
+            Únete a MyParking y gestiona tu espacio
+          </Typography>
+
+          {error && (
+            <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>
+              {error}
+            </Alert>
+          )}
+
+          <form onSubmit={handleRegister}>
+            <TextField fullWidth label="Nombre" variant="outlined" size="small" margin="normal" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
+
+            {/* Agrupamos los apellidos en una sola fila */}
+            <Box sx={{ display: "flex", gap: 2, mt: 1, mb: 1 }}>
+              <TextField fullWidth label="Primer apellido" variant="outlined" size="small" value={apellido1} onChange={(e) => setApellido1(e.target.value)} required />
+              <TextField fullWidth label="Segundo apellido" variant="outlined" size="small" value={apellido2} onChange={(e) => setApellido2(e.target.value)} />
+            </Box>
+
+            <TextField fullWidth label="Correo electrónico" type="email" variant="outlined" size="small" margin="normal" value={email} onChange={(e) => setEmail(e.target.value)} required />
+
+            <Box sx={{ display: "flex", gap: 2, mt: 1, mb: 2 }}>
+              <TextField fullWidth label="Contraseña" type="password" variant="outlined" size="small" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <TextField
+                fullWidth
+                label="Confirmar"
+                type="password"
+                variant="outlined"
+                size="small"
+                value={confirmarPassword}
+                onChange={(e) => setConfirmarPassword(e.target.value)}
+                required
+              />
+            </Box>
+
+            <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              size="large"
+              sx={{ mt: 2, py: 1.5, borderRadius: 2, fontWeight: "bold" }}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Creando cuenta..." : "Registrarse"}
+            </Button>
+          </form>
+
+          <Button
+            fullWidth
+            variant="text"
+            color="primary"
+            sx={{ mt: 2, textTransform: "none", fontWeight: "medium" }}
+            onClick={() => navigate("/")}
+          >
+            ¿Ya tienes cuenta? Inicia sesión
           </Button>
-        </form>
-
-        <Button fullWidth variant="text" sx={{ mt: 1 }} onClick={() => navigate("/")}>
-          Volver al login
-        </Button>
-      </Paper>
+        </Paper>
+      </Box>
     </Box>
   );
 }
