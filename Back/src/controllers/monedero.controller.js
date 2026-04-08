@@ -30,31 +30,81 @@ export const getMonedero = async (req, res) => {
  * Obtener movimientos del monedero
  * GET /api/me/monedero/movimientos
  */
+// export const getMovimientos = async (req, res) => {
+//   const { idUsuario } = req.user;
+
+//   try {
+//     const [rows] = await pool.query(
+//       `SELECT m.idMovimiento,
+//               m.tipo,
+//               m.descripcion,
+//               m.cantidad,
+//               m.fecha,
+//               m.id_Reserva
+//        FROM Monedero_Movimientos m
+//        JOIN Monedero mo ON mo.idMonedero = m.id_Monedero
+//        WHERE mo.id_Usuario = ?
+//        ORDER BY m.fecha DESC`,
+//       [idUsuario]
+//     );
+
+//     res.json(rows);
+//   } catch (error) {
+//     console.error("getMovimientos:", error);
+//     res.status(500).json({ error: "Error al obtener movimientos" });
+//   }
+// };
+
+
 export const getMovimientos = async (req, res) => {
-  const { idUsuario } = req.user;
+  const userId = req.user.idUsuario;
 
   try {
     const [rows] = await pool.query(
-      `SELECT m.idMovimiento,
-              m.tipo,
-              m.descripcion,
-              m.cantidad,
-              m.fecha,
-              m.id_Reserva
-       FROM Monedero_Movimientos m
-       JOIN Monedero mo ON mo.idMonedero = m.id_Monedero
-       WHERE mo.id_Usuario = ?
-       ORDER BY m.fecha DESC`,
-      [idUsuario]
+      `
+      SELECT 
+        mm.idMovimiento,
+        mm.tipo,
+        mm.descripcion,
+        mm.cantidad,
+        mm.fecha,
+        u.Nombre,
+        u.Apellido1,
+        u.Apellido2,
+        v.Matricula AS matricula,
+        z.nombre AS zona,
+        TIMESTAMPDIFF(
+          MINUTE,
+          r.Fecha_inicio,
+          r.Fecha_fin
+        ) AS tiempoMinutos
+      FROM Monedero_Movimientos mm
+      JOIN Monedero m 
+        ON mm.id_Monedero = m.idMonedero
+      JOIN Usuarios u 
+        ON m.id_Usuario = u.idUsuario
+      LEFT JOIN Reserva r
+        ON mm.id_Reserva = r.idReserva
+      LEFT JOIN Vehiculos v
+        ON r.id_Vehiculo = v.idVehiculo
+      LEFT JOIN Plaza p
+        ON r.id_Plaza = p.idPlaza
+      LEFT JOIN Zona z
+        ON p.id_Zona = z.idZona
+      WHERE m.id_Usuario = ?
+      ORDER BY mm.fecha DESC
+      `,
+      [userId]
     );
 
     res.json(rows);
   } catch (error) {
-    console.error("getMovimientos:", error);
-    res.status(500).json({ error: "Error al obtener movimientos" });
+    console.error("Error obteniendo movimientos:", error);
+    res.status(500).json({
+      error: "Error al obtener movimientos",
+    });
   }
 };
-
 /**
  * Recarga manual de saldo
  * POST /api/me/monedero/recarga
