@@ -9,6 +9,8 @@ import Wallet from "../pages/Wallet";
 import Invoices from "../pages/Invoices";
 import Settings from "../pages/Settings";
 import Parquimetro from "../pages/Parquimetro";
+import { PrivacyPolicy } from "../pages/PrivacyPolicy";
+import { TermsConditions } from "../pages/TermsConditions";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Layout from "../components/Layout";
 import AdminPanel from "../pages/admin/AdminPanel";
@@ -30,6 +32,8 @@ export default function AppRouter() {
                 <Route path="invoices" element={<Invoices />} />
                 <Route path="settings" element={<Settings />} />
                 <Route path="admin" element={<AdminPanel />} />
+                <Route path="privacy" element={<PrivacyPolicy />} />
+                <Route path="terms" element={<TermsConditions />} />
             </Route>
 
             {/* Ruta para 404 */}
