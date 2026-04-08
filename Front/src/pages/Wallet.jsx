@@ -362,7 +362,7 @@ export default function WalletPage() {
         sx={{
           p: 3,
           mb: 4,
-          backgroundColor: "#E3F2FD", // azul claro tipo bg-accent
+          backgroundColor: "#b5d3e9", // azul claro tipo bg-accent
           color: "#0D47A1", // texto azul oscuro tipo text-accent-foreground
         }}
       >
@@ -375,7 +375,7 @@ export default function WalletPage() {
               {saldo.toFixed(2)} €
             </Typography>
           </Box>
-          <Avatar sx={{ bgcolor: "#BBDEFB", width: 56, height: 56 }}>
+          <Avatar sx={{ bgcolor: "#cfe7fc", width: 56, height: 56 }}>
             <Wallet color="#0D47A1" size={28} />
           </Avatar>
         </Stack>
