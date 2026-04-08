@@ -1,6 +1,11 @@
 // controllers/vehiculos.controller.js
 import { pool } from "../config/db.js";
 
+const normalizePlate = (plate = "") =>
+plate.trim().replace(/\s+/g, "").toUpperCase();
+const plateRegex = /^[A-Z0-9-]{4,15}$/;
+const textRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9 ]+$/;
+
 export const getMyVehicles = async (req, res) => {
   const userId = req.user.idUsuario;
   try {
@@ -19,15 +24,68 @@ export const createVehicle = async (req, res) => {
   const userId = req.user.idUsuario;
   const { plate, brand, model, year } = req.body;
 
+  const normalizedPlate = normalizePlate(plate);
+
+if (!plateRegex.test(normalizedPlate)) {
+  return res.status(400).json({
+    error: "Matrícula no válida",
+  });
+}
+
+if (!textRegex.test(brand) || !textRegex.test(model)) {
+  const yearNumber = Number(year);
+
+  if (
+  year &&
+  (isNaN(yearNumber) ||
+    yearNumber < 1900 ||
+    yearNumber > new Date().getFullYear() + 1)
+) {
+  return res.status(400).json({
+    error: "Año no válido",
+  });
+}
+  return res.status(400).json({
+    error: "Marca o modelo no válidos",
+  });
+}
+
+const yearNumber = Number(year);
+
+if (
+  year &&
+  (isNaN(yearNumber) ||
+    yearNumber < 1900 ||
+    yearNumber > new Date().getFullYear() + 1)
+) {
+  return res.status(400).json({
+    error: "Año no válido",
+  });
+}
+
   if (!plate || !brand || !model) {
     return res.status(400).json({ error: "Faltan campos obligatorios" });
   }
 
   try {
+    const [existing] = await pool.query(
+  `SELECT idVehiculo 
+   FROM Vehiculos
+   WHERE id_Usuario = ?
+   AND REPLACE(UPPER(Matricula), ' ', '') = ?`,
+  [userId, normalizedPlate]
+  );
+
+  if (existing.length > 0) {
+  return res.status(409).json({
+    error: "La matrícula ya existe",
+  });
+}
+
     const [result] = await pool.query(
       `INSERT INTO Vehiculos (id_Usuario, Matricula, Marca, Modelo, Anio)
        VALUES (?, ?, ?, ?, ?)`,
-      [userId, plate.toUpperCase(), brand, model, year || null]
+      [userId, normalizedPlate, brand.trim(), model.trim(), year || null]
     );
 
     const insertedId = result.insertId;
@@ -51,15 +109,48 @@ export const updateVehicle = async (req, res) => {
   const id = req.params.id;
   const { plate, brand, model, year } = req.body;
 
+  const normalizedPlate = normalizePlate(plate);
+
+if (!plateRegex.test(normalizedPlate)) {
+  return res.status(400).json({
+    error: "Matrícula no válida",
+  });
+}
+
+if (!textRegex.test(brand) || !textRegex.test(model)) {
+  return res.status(400).json({
+    error: "Marca o modelo no válidos",
+  });
+}
+
+  
+
   try {
     // comprobar propiedad
+
+
     const [owner] = await pool.query("SELECT id_Usuario FROM Vehiculos WHERE idVehiculo = ?", [id]);
     if (owner.length === 0) return res.status(404).json({ error: "Vehículo no encontrado" });
     if (owner[0].id_Usuario !== userId) return res.status(403).json({ error: "No autorizado" });
 
+  const [existing] = await pool.query(
+  `SELECT idVehiculo
+   FROM Vehiculos
+   WHERE id_Usuario = ?
+   AND REPLACE(UPPER(Matricula), ' ', '') = ?
+   AND idVehiculo != ?`,
+  [userId, normalizedPlate, id]
+);
+
+if (existing.length > 0) {
+  return res.status(409).json({
+    error: "La matrícula ya existe",
+  });
+}
+
     await pool.query(
       "UPDATE Vehiculos SET Matricula = ?, Marca = ?, Modelo = ?, Anio = ? WHERE idVehiculo = ?",
-      [plate.toUpperCase(), brand, model, year || null, id]
+      [ normalizedPlate,brand.trim(), model.trim(), year || null, id,]
     );
 
     const [rows] = await pool.query(
