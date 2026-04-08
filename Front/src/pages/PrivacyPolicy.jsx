@@ -97,7 +97,7 @@ export function PrivacyPolicy() {
         }}
       >
         <Typography variant="body2">
-          En <strong>ParkApp</strong> nos comprometemos a proteger tu privacidad. Este documento
+          En <strong>MyParking</strong> nos comprometemos a proteger tu privacidad. Este documento
           explica de forma clara y transparente cómo recopilamos, usamos y protegemos tu información
           personal, de acuerdo con el{" "}
           <strong>Reglamento General de Protección de Datos (RGPD)</strong> de la Unión Europea y la
@@ -120,11 +120,11 @@ export function PrivacyPolicy() {
             <Table size="small">
               <TableBody>
                 {[
-                  ["Denominación social", "ParkApp Technologies S.L."],
+                  ["Denominación social", "MyParking Technologies S.L."],
                   ["NIF", "B-87654321"],
                   ["Domicilio", "Calle Gran Vía 28, 4º planta, 28013 Madrid, España"],
-                  ["Correo de contacto", "privacidad@parkapp.es"],
-                  ["Delegado de Protección de Datos (DPD)", "dpo@parkapp.es"],
+                  ["Correo de contacto", "privacidad@myparking.es"],
+                  ["Delegado de Protección de Datos (DPD)", "dpo@myparking.es"],
                   ["Registro Mercantil", "Madrid, Tomo 12345, Folio 67, Sección 8, Hoja M-123456"],
                 ].map(([campo, valor]) => (
                   <TableRow key={campo}>
@@ -271,7 +271,7 @@ export function PrivacyPolicy() {
               <Alert severity="warning" sx={{ mt: 1.5, borderRadius: 2 }}>
                 <Typography variant="body2">
                   Los datos sensibles de pago son procesados exclusivamente por nuestra pasarela
-                  certificada PCI-DSS. ParkApp <strong>nunca almacena</strong> el número completo de
+                  certificada PCI-DSS. MyParking <strong>nunca almacena</strong> el número completo de
                   tu tarjeta de crédito o débito.
                 </Typography>
               </Alert>
@@ -372,7 +372,7 @@ export function PrivacyPolicy() {
             index="4"
           />
           <Typography color="text.secondary" mb={2}>
-            <strong>ParkApp no vende ni alquila tus datos personales a terceros</strong> bajo ningún
+            <strong>MyParking no vende ni alquila tus datos personales a terceros</strong> bajo ningún
             concepto. Sin embargo, para prestar el servicio trabajamos con proveedores técnicos que
             actúan como encargados del tratamiento y están contractualmente obligados a respetar tu
             privacidad:
@@ -421,7 +421,7 @@ export function PrivacyPolicy() {
           />
           <Typography color="text.secondary" mb={2}>
             Bajo el RGPD, tienes los siguientes derechos sobre tus datos personales. Puedes ejercerlos
-            en cualquier momento a través de <strong>privacidad@parkapp.es</strong> o desde la sección
+            en cualquier momento a través de <strong>privacidad@MyParking.es</strong> o desde la sección
             de configuración:
           </Typography>
           <Stack spacing={1.5}>
@@ -567,7 +567,7 @@ export function PrivacyPolicy() {
             index="8"
           />
           <Typography color="text.secondary" mb={2}>
-            La aplicación web de ParkApp utiliza las siguientes cookies:
+            La aplicación web de MyParking utiliza las siguientes cookies:
           </Typography>
           <TableContainer component={Paper} variant="outlined" sx={{ borderRadius: 2 }}>
             <Table size="small">
@@ -628,10 +628,10 @@ export function PrivacyPolicy() {
             index="9"
           />
           <Typography color="text.secondary">
-            ParkApp no está dirigida a menores de <strong>14 años</strong>. No recopilamos
+            MyParking no está dirigida a menores de <strong>14 años</strong>. No recopilamos
             intencionadamente datos personales de menores de esa edad. Si eres padre, madre o tutor
             legal y tienes conocimiento de que un menor nos ha proporcionado datos sin tu consentimiento,
-            contáctanos en <strong>privacidad@parkapp.es</strong> y procederemos a eliminar dicha
+            contáctanos en <strong>privacidad@MyParking.es</strong> y procederemos a eliminar dicha
             información de forma inmediata. Para usuarios de entre 14 y 18 años, puede ser necesario el
             consentimiento del representante legal para determinados tratamientos.
           </Typography>
@@ -679,12 +679,12 @@ export function PrivacyPolicy() {
           </Typography>
           <Stack spacing={1.5}>
             {[
-              { label: "Correo del Delegado de Protección de Datos", value: "dpo@parkapp.es" },
-              { label: "Correo de privacidad general", value: "privacidad@parkapp.es" },
+              { label: "Correo del Delegado de Protección de Datos", value: "dpo@MyParking.es" },
+              { label: "Correo de privacidad general", value: "privacidad@MyParking.es" },
               {
                 label: "Dirección postal",
                 value:
-                  "ParkApp Technologies S.L. — A/A DPD, Calle Gran Vía 28, 4º, 28013 Madrid",
+                  "MyParking Technologies S.L. — A/A DPD, Calle Gran Vía 28, 4º, 28013 Madrid",
               },
               {
                 label: "Plazo de respuesta",

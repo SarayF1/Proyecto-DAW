@@ -106,8 +106,8 @@ export function TermsConditions() {
       >
         <Typography variant="body2">
           Estos Términos y Condiciones regulan el acceso y uso de la plataforma{" "}
-          <strong>ParkApp</strong> y sus servicios asociados. Al crear una cuenta o utilizar
-          cualquier funcionalidad de ParkApp, aceptas íntegramente estas condiciones. Si no estás de
+          <strong>MyParking</strong> y sus servicios asociados. Al crear una cuenta o utilizar
+          cualquier funcionalidad de MyParking, aceptas íntegramente estas condiciones. Si no estás de
           acuerdo, debes abstenerte de usar el servicio. Le recomendamos leer este documento con
           atención.
         </Typography>
@@ -127,8 +127,8 @@ export function TermsConditions() {
           <Stack spacing={1.5}>
             {[
               {
-                term: "ParkApp / La Plataforma",
-                def: "El conjunto de aplicaciones web y móviles, API y servicios ofrecidos por ParkApp Technologies S.L.",
+                term: "MyParking / La Plataforma",
+                def: "El conjunto de aplicaciones web y móviles, API y servicios ofrecidos por MyParking Technologies S.L.",
               },
               {
                 term: "Usuario",
@@ -224,10 +224,10 @@ export function TermsConditions() {
               <Typography variant="body2" color="text.secondary" mb={1}>
                 Eres el único responsable de mantener la confidencialidad de tus credenciales de
                 acceso. Debes notificarnos de inmediato a través de{" "}
-                <strong>soporte@parkapp.es</strong> si sospechas un acceso no autorizado a tu cuenta.
+                <strong>soporte@pmyparking.es</strong> si sospechas un acceso no autorizado a tu cuenta.
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                ParkApp no será responsable de los daños o perjuicios derivados del uso no autorizado
+                MyParking no será responsable de los daños o perjuicios derivados del uso no autorizado
                 de tu cuenta, salvo que se demuestre negligencia directa por nuestra parte en la
                 protección de tus datos.
               </Typography>
@@ -240,7 +240,7 @@ export function TermsConditions() {
                 2.3 Una cuenta por persona
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Cada persona física puede tener únicamente una cuenta activa en ParkApp. La creación
+                Cada persona física puede tener únicamente una cuenta activa en MyParking. La creación
                 de múltiples cuentas para eludir sanciones, obtener beneficios indebidos o con
                 cualquier otro fin fraudulento está expresamente prohibida y dará lugar a la
                 suspensión permanente de todas las cuentas implicadas.
@@ -284,7 +284,7 @@ export function TermsConditions() {
             </List>
             <Alert severity="info" sx={{ borderRadius: 2 }}>
               <Typography variant="body2">
-                ParkApp se reserva el derecho de verificar la validez de las matrículas registradas
+                MyParking se reserva el derecho de verificar la validez de las matrículas registradas
                 y de eliminar aquellas que sean fraudulentas o inexistentes.
               </Typography>
             </Alert>
@@ -321,7 +321,7 @@ export function TermsConditions() {
                   "Recibirás una confirmación por correo electrónico y notificación push una vez completada la reserva.",
                   "La reserva es válida exclusivamente para la plaza, zona, fecha y hora especificadas.",
                   "El acceso con un vehículo distinto al registrado en la reserva puede resultar en denegación de entrada.",
-                  "ParkApp no garantiza el libre acceso en caso de incidencias técnicas en los sistemas de acceso físico al parking.",
+                  "MyParking no garantiza el libre acceso en caso de incidencias técnicas en los sistemas de acceso físico al parking.",
                 ].map((item) => (
                   <ListItem key={item} sx={{ py: 0.25, px: 0 }}>
                     <ListItemIcon sx={{ minWidth: 28 }}>
@@ -383,7 +383,7 @@ export function TermsConditions() {
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Los precios de cada plaza o zona son visibles antes de confirmar la reserva e
-                incluyen todos los impuestos aplicables (IVA incluido). ParkApp se reserva el
+                incluyen todos los impuestos aplicables (IVA incluido). MyParking se reserva el
                 derecho de modificar las tarifas con un preaviso mínimo de{" "}
                 <strong>15 días naturales</strong>, comunicándolo mediante notificación en la app.
               </Typography>
@@ -401,7 +401,7 @@ export function TermsConditions() {
                   "Las recargas son inmediatas una vez confirmado el pago por la pasarela.",
                   "El saldo del monedero no genera intereses ni tiene fecha de caducidad mientras la cuenta permanezca activa.",
                   "El saldo no es transferible a otras cuentas de usuario.",
-                  "En caso de baja voluntaria, el saldo restante podrá ser devuelto previa solicitud formal a soporte@parkapp.es.",
+                  "En caso de baja voluntaria, el saldo restante podrá ser devuelto previa solicitud formal a soporte@MyParking.es.",
                 ].map((item) => (
                   <ListItem key={item} sx={{ py: 0.25, px: 0 }}>
                     <ListItemIcon sx={{ minWidth: 28 }}>
@@ -496,11 +496,11 @@ export function TermsConditions() {
           </Alert>
           <Box sx={{ mt: 2 }}>
             <Typography fontWeight="bold" mb={1}>
-              6.1 Cancelaciones por causa imputable a ParkApp
+              6.1 Cancelaciones por causa imputable a MyParking
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Si la cancelación es consecuencia de una incidencia técnica, mantenimiento imprevisto
-              u otro motivo imputable a ParkApp o al gestor del parking, el Usuario recibirá el{" "}
+              u otro motivo imputable a MyParking o al gestor del parking, el Usuario recibirá el{" "}
               <strong>reembolso íntegro del 100%</strong> en el monedero, más, si procede, una
               compensación adicional a criterio del equipo de soporte.
             </Typography>
@@ -515,7 +515,7 @@ export function TermsConditions() {
             index="7"
           />
           <Typography color="text.secondary" mb={2}>
-            Al usar ParkApp te comprometes a:
+            Al usar MyParking te comprometes a:
           </Typography>
           <Stack spacing={1.5}>
             {[
@@ -533,7 +533,7 @@ export function TermsConditions() {
               },
               {
                 ok: true,
-                text: "Notificar cualquier daño o incidencia detectada en la plaza a través de la app o a soporte@parkapp.es.",
+                text: "Notificar cualquier daño o incidencia detectada en la plaza a través de la app o a soporte@MyParking.es.",
               },
               {
                 ok: true,
@@ -591,8 +591,8 @@ export function TermsConditions() {
                 8.1 Papel de intermediario
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                ParkApp actúa como plataforma intermediaria que facilita la gestión de reservas entre
-                el Usuario y el gestor del aparcamiento. ParkApp no es propietaria de las
+                MyParking actúa como plataforma intermediaria que facilita la gestión de reservas entre
+                el Usuario y el gestor del aparcamiento. MyParking no es propietaria de las
                 instalaciones físicas y, por tanto, no asume responsabilidad directa por las
                 condiciones del recinto, daños a vehículos dentro del parking, robos u otras
                 incidencias de carácter físico.
@@ -606,10 +606,10 @@ export function TermsConditions() {
                 8.2 Disponibilidad del servicio
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                ParkApp se esfuerza por mantener el servicio disponible de forma continua, pero no
+                MyParking se esfuerza por mantener el servicio disponible de forma continua, pero no
                 garantiza una disponibilidad del 100%. Pueden producirse interrupciones por
                 mantenimiento programado (con aviso previo), fallos técnicos imprevistos o causas
-                de fuerza mayor. En estos casos, ParkApp no será responsable de los perjuicios
+                de fuerza mayor. En estos casos, MyParking no será responsable de los perjuicios
                 ocasionados salvo dolo o culpa grave.
               </Typography>
             </Box>
@@ -621,7 +621,7 @@ export function TermsConditions() {
                 8.3 Límite máximo de responsabilidad
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                En todo caso, la responsabilidad total de ParkApp frente al Usuario por cualquier
+                En todo caso, la responsabilidad total de MyParking frente al Usuario por cualquier
                 concepto quedará limitada al importe de las transacciones realizadas por dicho
                 Usuario en los <strong>12 meses anteriores</strong> al hecho que origine la
                 reclamación, salvo que la legislación aplicable establezca lo contrario.
@@ -644,7 +644,7 @@ export function TermsConditions() {
                 9.1 Suspensión temporal
               </Typography>
               <Typography variant="body2" color="text.secondary" mb={1}>
-                ParkApp podrá suspender temporalmente una cuenta en los siguientes supuestos:
+                MyParking podrá suspender temporalmente una cuenta en los siguientes supuestos:
               </Typography>
               <List dense disablePadding>
                 {[
@@ -676,7 +676,7 @@ export function TermsConditions() {
                 9.2 Bloqueo permanente
               </Typography>
               <Typography variant="body2" color="text.secondary" mb={1}>
-                ParkApp podrá bloquear permanentemente una cuenta, sin derecho a reembolso de los
+                MyParking podrá bloquear permanentemente una cuenta, sin derecho a reembolso de los
                 saldos pendientes salvo obligación legal, en los siguientes casos graves:
               </Typography>
               <List dense disablePadding>
@@ -711,7 +711,7 @@ export function TermsConditions() {
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Puedes solicitar la eliminación de tu cuenta en cualquier momento desde la sección de
-                configuración o enviando un correo a <strong>soporte@parkapp.es</strong>. La baja
+                configuración o enviando un correo a <strong>soporte@MyParking.es</strong>. La baja
                 conlleva la cancelación de todas las reservas futuras (con reembolso según la
                 política del apartado 6) y la eliminación progresiva de tus datos en los plazos
                 establecidos en la Política de Privacidad.
@@ -730,7 +730,7 @@ export function TermsConditions() {
           <Typography variant="body2" color="text.secondary" mb={2}>
             Todos los elementos de la Plataforma —incluyendo, sin carácter limitativo, el código
             fuente, diseño visual, logotipos, marcas, denominaciones, contenidos textuales, iconos,
-            bases de datos y APIs— son propiedad exclusiva de ParkApp Technologies S.L. o de sus
+            bases de datos y APIs— son propiedad exclusiva de MyParking Technologies S.L. o de sus
             licenciantes y están protegidos por la legislación española e internacional sobre
             propiedad intelectual e industrial.
           </Typography>
@@ -742,7 +742,7 @@ export function TermsConditions() {
           <List dense disablePadding>
             {[
               "Reproducir, distribuir, modificar o crear obras derivadas sin autorización escrita previa.",
-              "Usar las marcas, logotipos o denominaciones de ParkApp con fines distintos al uso personal.",
+              "Usar las marcas, logotipos o denominaciones de MyParking con fines distintos al uso personal.",
               "Descompilar, realizar ingeniería inversa o intentar extraer el código fuente de la aplicación.",
               "Utilizar el contenido de la Plataforma con fines comerciales sin licencia expresa.",
             ].map((item) => (
@@ -815,12 +815,12 @@ export function TermsConditions() {
           />
           <Stack spacing={1.5}>
             {[
-              { label: "Correo de soporte", value: "soporte@parkapp.es" },
-              { label: "Correo de facturación", value: "facturacion@parkapp.es" },
-              { label: "Correo legal / reclamaciones", value: "legal@parkapp.es" },
+              { label: "Correo de soporte", value: "soporte@MyParking.es" },
+              { label: "Correo de facturación", value: "facturacion@MyParking.es" },
+              { label: "Correo legal / reclamaciones", value: "legal@MyParking.es" },
               { label: "Horario de atención", value: "Lunes a viernes, de 9:00 a 20:00 (CET/CEST)" },
               { label: "Tiempo de respuesta estimado", value: "Máximo 2 días hábiles para consultas generales; 5 días hábiles para reclamaciones formales" },
-              { label: "Dirección postal", value: "ParkApp Technologies S.L., Calle Gran Vía 28, 4º, 28013 Madrid, España" },
+              { label: "Dirección postal", value: "MyParking Technologies S.L., Calle Gran Vía 28, 4º, 28013 Madrid, España" },
             ].map(({ label, value }) => (
               <Box
                 key={label}
@@ -850,14 +850,14 @@ export function TermsConditions() {
             index="13"
           />
           <Typography variant="body2" color="text.secondary" mb={2}>
-            ParkApp se reserva el derecho de modificar estos Términos y Condiciones en cualquier
+            MyParking se reserva el derecho de modificar estos Términos y Condiciones en cualquier
             momento. Las modificaciones entrarán en vigor:
           </Typography>
           <Stack spacing={1}>
             {[
               "Para cambios menores o de redacción: inmediatamente tras su publicación en la app.",
               "Para cambios sustanciales que afecten a los derechos del Usuario: tras un preaviso de 30 días mediante notificación en la app y por correo electrónico.",
-              "Si el Usuario continúa usando ParkApp tras la entrada en vigor de los nuevos términos, se entenderá que los acepta. Si no está de acuerdo, debe cesar el uso y puede solicitar la baja de su cuenta.",
+              "Si el Usuario continúa usando MyParking tras la entrada en vigor de los nuevos términos, se entenderá que los acepta. Si no está de acuerdo, debe cesar el uso y puede solicitar la baja de su cuenta.",
             ].map((item, i) => (
               <Stack key={i} direction="row" spacing={1} alignItems="flex-start">
                 <MonetizationOn
@@ -898,7 +898,7 @@ export function TermsConditions() {
             },
             {
               q: "¿Qué pasa si hay un accidente o daño en mi vehículo dentro del parking?",
-              a: "ParkApp actúa como intermediario y no gestiona el recinto físico. En caso de daño, debes contactar directamente con el administrador del parking y, si procede, con tu seguro de automóvil. Podemos facilitarte los datos de contacto del gestor si lo solicitas a soporte.",
+              a: "MyParking actúa como intermediario y no gestiona el recinto físico. En caso de daño, debes contactar directamente con el administrador del parking y, si procede, con tu seguro de automóvil. Podemos facilitarte los datos de contacto del gestor si lo solicitas a soporte.",
             },
             {
               q: "¿Puedo usar la app si soy menor de edad?",
@@ -906,7 +906,7 @@ export function TermsConditions() {
             },
             {
               q: "¿Cómo puedo impugnar una factura o cargo?",
-              a: "Debes ponerte en contacto con facturacion@parkapp.es en un plazo máximo de 30 días desde la emisión de la factura, adjuntando el identificador de transacción y una descripción de la discrepancia. Resolveremos la incidencia en un plazo de 5 días hábiles.",
+              a: "Debes ponerte en contacto con facturacion@MyParking.es en un plazo máximo de 30 días desde la emisión de la factura, adjuntando el identificador de transacción y una descripción de la discrepancia. Resolveremos la incidencia en un plazo de 5 días hábiles.",
             },
           ].map(({ q, a }) => (
             <Accordion
