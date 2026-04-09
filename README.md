@@ -1,8 +1,12 @@
 # MyParking
 
 <div align="center">
-    <img src="./Front/src/assets/logo2.png" alt="MyParking Logo" width="150">
+    <img src="./Front/src/assets/logo2.png" alt="MyParking Logo" width="150" height="150">
 </div>
+
+<br>
+<br>
+<br>
 
  **MyParking** es una aplicación web intuitiva y moderna diseñada para facilitar la búsqueda, reserva y gestión de plazas de aparcamiento. A través de un mapa interactivo, los usuarios pueden localizar zonas de parking disponibles, revisar tarifas en tiempo real, guardar la ubicación de su vehículo y gestionar pagos mediante un monedero virtual.
 
