@@ -1,10 +1,10 @@
-# 📍 MyParking
+# MyParking
 
 ![MyParking Logo](./Front/src/assets/logo2.jpg) **MyParking** es una aplicación web intuitiva y moderna diseñada para facilitar la búsqueda, reserva y gestión de plazas de aparcamiento. A través de un mapa interactivo, los usuarios pueden localizar zonas de parking disponibles, revisar tarifas en tiempo real, guardar la ubicación de su vehículo y gestionar pagos mediante un monedero virtual.
 
 ---
 
-## ✨ Características Principales
+## Características Principales
 
 * **Autenticación Segura:** Sistema de registro e inicio de sesión con JWT.
 * **Mapa Interactivo:** Visualización de parkings y zonas de estacionamiento regulado utilizando `react-leaflet`.
@@ -15,7 +15,7 @@
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologías Utilizadas
 
 * **Frontend:** React, React Router, Material-UI (MUI), Leaflet.
 * **Backend:** Node.js, Express (API REST).
@@ -24,7 +24,7 @@
 
 ---
 
-## ⚙️ Variables de Entorno (.env)
+## Variables de Entorno (el .env)
 
 Para que el proyecto funcione correctamente, es necesario configurar las variables de entorno en tu servidor (carpeta backend). 
 
