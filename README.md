@@ -1,10 +1,9 @@
 # MyParking
 
 <div align="center">
-    <img src="./Front/src/assets/logo2.png" alt="MyParking Logo" width="150" height="150">
+    <img src="./Front/src/assets/logo2.png" alt="MyParking Logo" width="250">
 </div>
 
-<br>
 <br>
 <br>
 
