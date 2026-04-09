@@ -1,9 +1,9 @@
 // src/components/Layout.jsx
-import { Box, Drawer, IconButton } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Box, Drawer } from "@mui/material";
 import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
+import ActiveReservationBanner from "./ActiveReservationBanner";
 import { Outlet } from "react-router-dom";
 
 export default function Layout() {
@@ -15,21 +15,21 @@ export default function Layout() {
 
     return (
         <Box display="flex" height="100vh">
-            {/* Sidebar para escritorio */}
+            {/* Sidebar escritorio */}
             <Drawer
                 variant="permanent"
                 sx={{
                     width: 240,
                     flexShrink: 0,
                     [`& .MuiDrawer-paper`]: { width: 240, boxSizing: "border-box" },
-                    display: { xs: "none", sm: "block" }, // ocultar en XS
+                    display: { xs: "none", sm: "block" },
                 }}
                 open
             >
                 <Sidebar />
             </Drawer>
 
-            {/* Sidebar para móvil */}
+            {/* Sidebar móvil */}
             <Drawer
                 variant="temporary"
                 open={mobileOpen}
@@ -40,27 +40,19 @@ export default function Layout() {
                     [`& .MuiDrawer-paper`]: { width: 240, boxSizing: "border-box" },
                 }}
             >
-                <Sidebar noDrawer /> {/* Solo el contenido del menú, sin el Drawer */}
+                <Sidebar noDrawer />
             </Drawer>
 
             {/* Contenido principal */}
-            <Box
-                flex={1}
-                display="flex"
-                flexDirection="column"
-                sx={{ bgcolor: "background.default", minHeight: "100vh" }}
-            >
-                {/* Navbar con botón para abrir Sidebar en móvil */}
+            <Box flex={1} display="flex" flexDirection="column" sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
                 <Navbar onMenuClick={handleDrawerToggle} />
-                <Box
-                    p={3}
-                    flex={1}
-                    overflow="auto"
-                    sx={{ bgcolor: "background.default" }}
-                >
-                    <Outlet /> {/* Aquí se renderizan las páginas hijas */}
+                <Box p={3} flex={1} overflow="auto" sx={{ bgcolor: "background.default" }}>
+                    <Outlet />
                 </Box>
             </Box>
+
+            {/* Widget flotante de reserva activa — fuera del flujo, no ocupa espacio */}
+            <ActiveReservationBanner />
         </Box>
     );
 }

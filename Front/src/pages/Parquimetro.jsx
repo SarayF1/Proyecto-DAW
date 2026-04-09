@@ -183,7 +183,7 @@ export default function Parquimetro() {
 
   return (
     <Box p={3} maxWidth="600px" mx="auto">
-      <Typography variant="h4" mb={3}>🅿️ Parquímetro</Typography>
+      <Typography variant="h4" mb={3} fontWeight="bold"> Parquímetro</Typography>
 
       <Paper sx={{ p: 3 }}>
         <Stack spacing={3}>
