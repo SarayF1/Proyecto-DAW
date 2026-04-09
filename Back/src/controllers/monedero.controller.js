@@ -26,31 +26,6 @@ export const getMonedero = async (req, res) => {
   }
 };
 
-/**
- * Obtener movimientos del monedero
-(Se sustituye por el nuevo, se puede mejorar la conslta )
-//   try {
-//     const [rows] = await pool.query(
-//       `SELECT m.idMovimiento,
-//               m.tipo,
-//               m.descripcion,
-//               m.cantidad,
-//               m.fecha,
-//               m.id_Reserva
-//        FROM Monedero_Movimientos m
-//        JOIN Monedero mo ON mo.idMonedero = m.id_Monedero
-//        WHERE mo.id_Usuario = ?
-//        ORDER BY m.fecha DESC`,
-//       [idUsuario]
-//     );
-
-//     res.json(rows);
-//   } catch (error) {
-//     console.error("getMovimientos:", error);
-//     res.status(500).json({ error: "Error al obtener movimientos" });
-//   }
-
-
 
 export const getMovimientos = async (req, res) => {
   const userId = req.user.idUsuario;
@@ -101,6 +76,34 @@ export const getMovimientos = async (req, res) => {
     });
   }
 };
+
+
+// ESTE ES EL VIEJO
+/**
+ * Obtener movimientos del monedero
+(Se sustituye por el nuevo, se puede mejorar la conslta )
+//   try {
+//     const [rows] = await pool.query(
+//       `SELECT m.idMovimiento,
+//               m.tipo,
+//               m.descripcion,
+//               m.cantidad,
+//               m.fecha,
+//               m.id_Reserva
+//        FROM Monedero_Movimientos m
+//        JOIN Monedero mo ON mo.idMonedero = m.id_Monedero
+//        WHERE mo.id_Usuario = ?
+//        ORDER BY m.fecha DESC`,
+//       [idUsuario]
+//     );
+
+//     res.json(rows);
+//   } catch (error) {
+//     console.error("getMovimientos:", error);
+//     res.status(500).json({ error: "Error al obtener movimientos" });
+//   }
+
+
 /**
  * Recarga manual de saldo
  * POST /api/me/monedero/recarga
