@@ -1,116 +1,44 @@
 # MyParking
 
 <div align="center">
-    <img src="./Front/src/assets/logo2.png" alt="MyParking Logo" width="220">
+    <img src="./Front/src/assets/logo2.png" alt="MyParking Logo" width="150">
 </div>
 
-<p align="center">
-  <b>Aplicación web moderna para la gestión inteligente de aparcamientos</b>
-</p>
-
-<p align="center">
-  Reserva · Localiza · Gestiona · Descarga facturas
-</p>
-
----
-
-## Descripción
-
-**MyParking** es una aplicación web moderna e intuitiva diseñada para facilitar la **búsqueda, reserva y gestión de plazas de aparcamiento**.
-
-Permite a los usuarios localizar zonas disponibles mediante un **mapa interactivo**, consultar disponibilidad en tiempo real, gestionar vehículos registrados, guardar la ubicación del coche y realizar pagos mediante un **monedero virtual**.
-
-Además, incorpora funcionalidades avanzadas como **facturación en PDF profesional**, geolocalización y control seguro de usuarios.
+ **MyParking** es una aplicación web intuitiva y moderna diseñada para facilitar la búsqueda, reserva y gestión de plazas de aparcamiento. A través de un mapa interactivo, los usuarios pueden localizar zonas de parking disponibles, revisar tarifas en tiempo real, guardar la ubicación de su vehículo y gestionar pagos mediante un monedero virtual.
 
 ---
 
 ## Características Principales
 
-- **Autenticación segura**
-  - Registro e inicio de sesión mediante JWT
-  - Protección de rutas privadas
-  - Gestión segura de sesiones
-
-- **Mapa interactivo**
-  - Integración con `react-leaflet`
-  - Visualización de zonas de parking
-  - Información en tiempo real de tarifas y plazas libres
-
-- **Reserva de plazas**
-  - Consulta de parkings disponibles
-  - Reserva directa desde mapa
-  - Redirección automática por zona seleccionada
-
-- **Gestión de vehículos**
-  - Alta, edición y eliminación
-  - Validación avanzada de matrícula
-  - Selección inteligente por marca y modelo
-  - Prevención de duplicados
-
-- **Geolocalización**
-  - Guardado de ubicación del vehículo
-  - Uso de API del navegador
-
-- **Monedero virtual**
-  - Recargas
-  - control de gastos
-  - historial de movimientos
-
-- **Facturación profesional**
-  - Generación PDF
-  - logo corporativo
-  - QR de validación
-  - firma digital
-  - datos reales de reserva
-  - IVA y total
-
-- **Diseño responsive**
-  - Optimizado para móvil y escritorio
-  - Material UI
-  - experiencia fluida
+* **Autenticación Segura:** Sistema de registro e inicio de sesión con JWT.
+* **Mapa Interactivo:** Visualización de parkings y zonas de estacionamiento regulado utilizando `react-leaflet`.
+* **Disponibilidad en Tiempo Real:** Consulta de plazas libres, horarios y tarifas actualizadas.
+* **Geolocalización:** Funcionalidad para que el usuario guarde la ubicación exacta de su coche.
+* **Gestión de Parquímetro y Recargas:** Interfaz para reservar plazas y manejar el saldo del usuario (Wallet).
+* **Diseño Responsivo:** Interfaz adaptada tanto para dispositivos móviles como para ordenadores, utilizando Material-UI (MUI).
 
 ---
 
 ## Tecnologías Utilizadas
 
-### Frontend
-- React
-- React Router
-- Material UI (MUI)
-- React Leaflet
-- jsPDF
-- QRCode
-
-### Backend
-- Node.js
-- Express
-- JWT
-- bcrypt
-
-### Base de datos
-- MySQL / SQL
-
-### Despliegue
-- Render
-- Railway / MySQL
+* **Frontend:** React, React Router, Material-UI (MUI), Leaflet.
+* **Backend:** Node.js, Express (API REST).
+* **Base de Datos:** SQL (Configurable vía entorno).
+* **Autenticación:** JSON Web Tokens (JWT).
 
 ---
 
-## Estructura del Proyecto
+## Variables de Entorno (el .env)
 
-```bash
-MyParking/
-│
-├── Front/
-│   ├── src/
-│   │   ├── pages/
-│   │   ├── components/
-│   │   ├── services/
-│   │   └── assets/
-│
-├── Back/
-│   ├── controllers/
-│   ├── routes/
-│   ├── middlewares/
-│   ├── config/
-│   └── app.js
+Para que el proyecto funcione correctamente, es necesario configurar las variables de entorno en tu servidor (carpeta backend). 
+
+Crea un archivo `.env` en el directorio raíz del backend y añade las siguientes variables con tus credenciales:
+
+```env
+PORT=
+DB_HOST=
+DB_USER=
+DB_PASSWORD=
+DB_NAME=
+DB_PORT=
+JWT_SECRET=
