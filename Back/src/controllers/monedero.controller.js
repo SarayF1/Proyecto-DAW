@@ -28,11 +28,7 @@ export const getMonedero = async (req, res) => {
 
 /**
  * Obtener movimientos del monedero
- * GET /api/me/monedero/movimientos
- */
-// export const getMovimientos = async (req, res) => {
-//   const { idUsuario } = req.user;
-
+(Se sustituye por el nuevo, se puede mejorar la conslta )
 //   try {
 //     const [rows] = await pool.query(
 //       `SELECT m.idMovimiento,
@@ -53,7 +49,7 @@ export const getMonedero = async (req, res) => {
 //     console.error("getMovimientos:", error);
 //     res.status(500).json({ error: "Error al obtener movimientos" });
 //   }
-// };
+
 
 
 export const getMovimientos = async (req, res) => {

@@ -1,5 +1,5 @@
 // src/components/ActiveReservationBanner.jsx
-// Widget flotante de reserva activa — no ocupa espacio del layout
+// Widget flotante de reserva activa — un poco grande pero util
 import { useEffect, useState, useCallback } from "react";
 import {
   Box,
