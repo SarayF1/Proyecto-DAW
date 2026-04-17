@@ -1,0 +1,185 @@
+/* Navbar.module.css */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 64px; background: var(--teal-dark);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.25rem; gap: 1rem;
+}
+
+.logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-display); font-size: 1.35rem;
+  color: var(--green-light); text-decoration: none; flex-shrink: 0;
+  min-height: 44px;
+}
+.logo span { display: none; }
+@media (min-width: 400px) { .logo span { display: block; } }
+
+.links {
+  display: none;
+  align-items: center; gap: 0.25rem; flex: 1; justify-content: center;
+}
+@media (min-width: 768px) { .links { display: flex; } }
+
+.link {
+  color: rgba(214,222,199,0.7); text-decoration: none;
+  font-size: 0.875rem; padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill); transition: all 0.18s;
+  min-height: 44px; display: flex; align-items: center;
+}
+.link:hover { color: var(--green-light); background: rgba(214,222,199,0.08); }
+.active { color: var(--green-light) !important; background: rgba(214,222,199,0.12) !important; }
+
+.actions { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+.authBtns { display: none; gap: 0.6rem; }
+@media (min-width: 480px) { .authBtns { display: flex; } }
+
+.btnGhost {
+  background: transparent; border: 1.5px solid rgba(214,222,199,0.35);
+  color: var(--green-light); padding: 0.42rem 1.1rem;
+  border-radius: var(--radius-pill); font-family: var(--font-body);
+  font-size: 0.875rem; cursor: pointer; transition: all 0.18s;
+  min-height: 44px;
+}
+.btnGhost:hover { border-color: var(--green-light); }
+
+.btnSolid {
+  background: var(--green-light); border: none;
+  color: var(--teal-darker); padding: 0.42rem 1.25rem;
+  border-radius: var(--radius-pill); font-family: var(--font-body);
+  font-size: 0.875rem; font-weight: 500; cursor: pointer;
+  transition: all 0.18s; min-height: 44px;
+}
+.btnSolid:hover { background: var(--white); }
+
+/* User menu */
+.userMenu { position: relative; display: none; }
+@media (min-width: 640px) { .userMenu { display: block; } }
+
+.userBtn {
+  display: flex; align-items: center; gap: 8px; cursor: pointer;
+  padding: 0.35rem 0.75rem; border-radius: var(--radius-pill);
+  border: 1.5px solid rgba(214,222,199,0.25); color: var(--green-light);
+  background: none; font-family: var(--font-body); font-size: 0.875rem;
+  transition: all 0.18s; min-height: 44px;
+}
+.userBtn:hover { background: rgba(214,222,199,0.08); border-color: rgba(214,222,199,0.4); }
+
+.avatar {
+  width: 28px; height: 28px; background: var(--green-light); color: var(--teal-darker);
+  border-radius: 50%; font-size: 0.7rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.userName { font-size: 0.875rem; font-weight: 400; }
+
+.dropdown {
+  position: absolute; top: calc(100% + 8px); right: 0;
+  background: var(--white); border: 1px solid rgba(47,93,91,0.12);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-md);
+  min-width: 190px; overflow: hidden; z-index: 300;
+}
+
+.dropItem {
+  display: flex; align-items: center; gap: 10px;
+  padding: 0.7rem 1rem; color: var(--teal-darker);
+  text-decoration: none; font-size: 0.875rem;
+  transition: background 0.15s; background: none; border: none;
+  width: 100%; text-align: left; cursor: pointer;
+  font-family: var(--font-body); min-height: 44px;
+}
+.dropItem:hover { background: var(--green-light); }
+.adminItem { color: var(--teal-dark); font-weight: 500; }
+.dropDivider { height: 1px; background: rgba(47,93,91,0.08); margin: 0.25rem 0; }
+.dropLogout { color: #993C1D; }
+.dropLogout:hover { background: #FAECE7; }
+
+/* Hamburger */
+.hamburger {
+  display: flex; flex-direction: column; justify-content: center;
+  gap: 5px; width: 44px; height: 44px; padding: 10px;
+  background: none; border: none; cursor: pointer;
+  border-radius: var(--radius-sm); transition: background 0.15s;
+}
+.hamburger:hover { background: rgba(214,222,199,0.1); }
+@media (min-width: 768px) { .hamburger { display: none; } }
+
+.bar {
+  display: block; width: 20px; height: 2px;
+  background: var(--green-light); border-radius: 2px;
+  transition: transform 0.22s, opacity 0.22s;
+  transform-origin: center;
+}
+.barOpen1 { transform: translateY(7px) rotate(45deg); }
+.barOpen2 { opacity: 0; transform: scaleX(0); }
+.barOpen3 { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile drawer */
+.mobileBackdrop {
+  position: fixed; inset: 0; z-index: 250;
+  background: rgba(39,76,74,0.6); backdrop-filter: blur(3px);
+}
+
+.mobileDrawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 300;
+  width: min(320px, 85vw); background: var(--white);
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg); padding: 1.5rem;
+  overflow-y: auto; padding-top: 80px;
+}
+
+.drawerUser {
+  display: flex; align-items: center; gap: 1rem;
+  padding-bottom: 1.25rem; border-bottom: 1px solid rgba(47,93,91,0.1);
+  margin-bottom: 1.25rem;
+}
+.drawerAvatar {
+  width: 44px; height: 44px; background: var(--teal-dark); color: var(--green-light);
+  border-radius: 50%; font-family: var(--font-display); font-size: 1.1rem;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.drawerName { font-family: var(--font-display); font-size: 1rem; color: var(--teal-darker); }
+.drawerEmail { font-size: 0.78rem; color: var(--teal-dark); opacity: 0.6; }
+
+.drawerNav { display: flex; flex-direction: column; gap: 0.25rem; flex: 1; }
+.drawerLink {
+  padding: 0.75rem 0.9rem; border-radius: var(--radius-md);
+  color: var(--teal-darker); text-decoration: none; font-size: 0.95rem;
+  transition: background 0.15s; min-height: 44px; display: flex; align-items: center;
+}
+.drawerLink:hover { background: var(--green-light); }
+.drawerLinkActive { background: var(--green-light); font-weight: 500; }
+
+.drawerLogout {
+  margin-top: 1.25rem; padding: 0.75rem;
+  background: transparent; border: 1.5px solid rgba(153,60,29,0.25);
+  color: #993C1D; border-radius: var(--radius-pill);
+  font-family: var(--font-body); font-size: 0.9rem;
+  cursor: pointer; transition: all 0.15s; min-height: 44px;
+}
+.drawerLogout:hover { background: #FAECE7; }
+
+.drawerAuth { display: flex; flex-direction: column; gap: 0.75rem; flex: 1; justify-content: center; }
+.drawerAuthTitle { font-family: var(--font-display); font-size: 1.5rem; color: var(--teal-darker); text-align: center; margin-bottom: 0.5rem; }
+.drawerAuthBtn {
+  padding: 0.85rem; background: var(--teal-dark); color: var(--green-light);
+  border: none; border-radius: var(--radius-pill); font-family: var(--font-body);
+  font-size: 1rem; font-weight: 500; cursor: pointer; min-height: 48px; transition: all 0.15s;
+}
+.drawerAuthBtn:hover { background: var(--teal-darker); }
+.drawerAuthBtnOutline {
+  padding: 0.85rem; background: transparent;
+  border: 1.5px solid rgba(47,93,91,0.3); color: var(--teal-dark);
+  border-radius: var(--radius-pill); font-family: var(--font-body);
+  font-size: 1rem; cursor: pointer; min-height: 48px; transition: all 0.15s;
+}
+.drawerAuthBtnOutline:hover { border-color: var(--teal-dark); }
+
+.drawerFooter {
+  display: flex; gap: 1.5rem; justify-content: center;
+  padding-top: 1rem; border-top: 1px solid rgba(47,93,91,0.08); margin-top: 1rem;
+}
+.drawerFooterLink { font-size: 0.78rem; color: var(--teal-dark); opacity: 0.5; text-decoration: none; }
+.drawerFooterLink:hover { opacity: 1; }
+
+.menuBackdrop { position: fixed; inset: 0; z-index: 199; }

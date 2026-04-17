@@ -1,0 +1,278 @@
+/* MonederoPage.module.css */
+.page {
+  min-height: calc(100vh - 64px);
+  margin-top: 64px;
+  padding: 2.5rem 2rem;
+  background: var(--green-light);
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.loading {
+  display: flex; align-items: center; justify-content: center;
+  height: calc(100vh - 64px); margin-top: 64px; gap: 12px;
+  color: var(--teal-dark);
+}
+
+.pageTitle {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  color: var(--teal-darker);
+  margin-bottom: 2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.left { display: flex; flex-direction: column; gap: 1.25rem; }
+.right { height: 100%; }
+
+/* ── WALLET CARD ── */
+.walletCard {
+  background: var(--teal-dark);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  color: var(--green-light);
+}
+
+.walletTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.walletLabel {
+  font-size: 0.8rem;
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 0.4rem;
+}
+
+.walletAmount {
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  line-height: 1;
+}
+
+.walletCurrency {
+  font-size: 1rem;
+  opacity: 0.65;
+}
+
+.walletIcon {
+  width: 48px; height: 48px;
+  background: rgba(214,222,199,0.15);
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-light);
+  flex-shrink: 0;
+}
+.walletIcon svg { width: 22px; height: 22px; }
+
+.walletDivider {
+  height: 1px;
+  background: rgba(214,222,199,0.15);
+  margin-bottom: 1.25rem;
+}
+
+.walletStats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.walletStat { flex: 1; }
+
+.wStatVal {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-bottom: 0.2rem;
+}
+
+.wStatLbl {
+  font-size: 0.72rem;
+  opacity: 0.55;
+}
+
+/* ── CARDS ── */
+.card {
+  background: var(--white);
+  border: 1px solid rgba(47,93,91,0.1);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+}
+
+.cardTitle {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  color: var(--teal-darker);
+  margin-bottom: 0.35rem;
+}
+
+.cardSub {
+  font-size: 0.83rem;
+  color: var(--teal-dark);
+  opacity: 0.65;
+  margin-bottom: 1rem;
+}
+.cardSub code {
+  background: var(--green-light);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: var(--teal-darker);
+}
+
+/* ── RECHARGE ── */
+.quickAmounts {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.quickBtn {
+  flex: 1;
+  min-width: 60px;
+  padding: 0.6rem 0.5rem;
+  background: var(--green-light);
+  border: 1.5px solid rgba(47,93,91,0.15);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--teal-darker);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
+}
+.quickBtn:hover:not(:disabled) { background: var(--teal-dark); color: var(--green-light); border-color: var(--teal-dark); }
+.quickBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.customRow, .promoRow {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.input {
+  flex: 1;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid rgba(47,93,91,0.18);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--teal-darker);
+  background: var(--surface);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.input:focus { border-color: var(--teal-dark); }
+
+.rechargeBtn {
+  padding: 0.65rem 1.25rem;
+  background: var(--teal-dark);
+  color: var(--green-light);
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex; align-items: center; gap: 6px;
+  flex-shrink: 0;
+}
+.rechargeBtn:hover:not(:disabled) { background: var(--teal-darker); }
+.rechargeBtn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* ── MOVEMENTS ── */
+.movList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 1rem;
+  max-height: 520px;
+  overflow-y: auto;
+}
+
+.movItem {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.8rem;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s;
+}
+.movItem:hover { background: var(--surface); }
+
+.movIcon {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.movIconIn { background: rgba(15,110,86,0.12); color: #0F6E56; }
+.movIconOut { background: rgba(153,60,29,0.1); color: #993C1D; }
+
+.movInfo { flex: 1; min-width: 0; }
+
+.movDesc {
+  font-size: 0.875rem;
+  color: var(--teal-darker);
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.movDate {
+  font-size: 0.75rem;
+  color: var(--teal-dark);
+  opacity: 0.55;
+  margin-top: 1px;
+}
+
+.movZona { font-weight: 500; opacity: 0.8; }
+
+.movAmount {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.amountIn { color: #0F6E56; }
+.amountOut { color: #993C1D; }
+
+.empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1rem; padding: 3rem;
+  color: var(--teal-dark); opacity: 0.5; font-size: 0.9rem;
+}
+
+.spinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(214,222,199,0.3);
+  border-top-color: var(--green-light);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+  .page { padding: 1.5rem 1rem; }
+}
+
+@media (max-width: 500px) {
+  .quickAmounts { gap: 0.4rem; }
+  .customRow, .promoRow { flex-direction: column; }
+  .rechargeBtn { width: 100%; }
+}

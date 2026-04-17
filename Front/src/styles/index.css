@@ -1,0 +1,124 @@
+/* ============================================
+   MYPARKING — Global Styles
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --green-light:   #D6DEC7;
+  --green-mid:     #CED7BF;
+  --teal-dark:     #2F5D5B;
+  --teal-darker:   #274C4A;
+  --white:         #FAFAF8;
+  --surface:       #EFF3E8;
+
+  --font-display: 'DM Serif Display', serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  18px;
+  --radius-xl:  24px;
+  --radius-pill: 100px;
+
+  --shadow-sm: 0 2px 8px rgba(39, 76, 74, 0.08);
+  --shadow-md: 0 6px 24px rgba(39, 76, 74, 0.12);
+  --shadow-lg: 0 16px 48px rgba(39, 76, 74, 0.16);
+
+  /* Touch targets */
+  --touch-min: 44px;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* prevent text size adjust on orientation change */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--green-light);
+  color: var(--teal-darker);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* prevent horizontal overflow on mobile */
+  overflow-x: hidden;
+}
+
+/* Tap highlight on mobile */
+a, button { -webkit-tap-highlight-color: transparent; }
+
+/* Leaflet map fix */
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  z-index: 0;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-md) !important;
+  font-family: var(--font-body) !important;
+}
+.leaflet-popup-content {
+  font-family: var(--font-body) !important;
+  font-size: 0.875rem !important;
+  color: var(--teal-darker) !important;
+  line-height: 1.5 !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--green-light); }
+::-webkit-scrollbar-thumb { background: var(--teal-dark); border-radius: 3px; }
+
+/* Typography helpers */
+.font-display { font-family: var(--font-display); }
+
+/* Focus ring — visible for keyboard, hidden for mouse */
+:focus-visible {
+  outline: 2px solid var(--teal-dark);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Mobile-first page wrapper */
+.page-wrap {
+  min-height: calc(100vh - 64px);
+  margin-top: 64px;
+  padding: 1.5rem 1rem;
+}
+@media (min-width: 640px) {
+  .page-wrap { padding: 2.5rem 2rem; }
+}
+
+/* Utility: visually hidden but accessible */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Page transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(12px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+/* Mobile bottom safe area */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  body { padding-bottom: env(safe-area-inset-bottom); }
+}

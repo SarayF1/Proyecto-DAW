@@ -1,0 +1,517 @@
+/* NavigationPage.module.css */
+
+/* ── Full-screen shell ── */
+.page {
+  position: fixed;
+  inset: 0;
+  z-index: 200;          /* sit above the nav bar */
+  background: #e8f0e9;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Google Maps div ── */
+.mapDiv {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Permission overlay ── */
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  background: rgba(47, 93, 91, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.permCard {
+  background: var(--white, #FAFAF8);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  max-width: 380px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.permEmoji { font-size: 3.5rem; line-height: 1; }
+
+.permTitle {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  color: #274C4A;
+  margin: 0;
+}
+
+.permDesc {
+  font-size: 0.9rem;
+  color: #2F5D5B;
+  line-height: 1.65;
+  opacity: 0.8;
+  max-width: 300px;
+}
+.permDesc strong { color: #274C4A; }
+
+.permList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+}
+.permItem {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.85rem;
+  background: #EFF3E8;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #274C4A;
+}
+.permCheck { color: #2F5D5B; font-weight: 700; flex-shrink: 0; }
+
+.permHint { font-size: 0.75rem; color: #2F5D5B; opacity: 0.5; }
+
+.spinnerWrap { display: flex; justify-content: center; }
+
+.permActions { display: flex; flex-direction: column; gap: 0.65rem; width: 100%; }
+
+.permBtnPrimary {
+  padding: 0.9rem;
+  background: #2F5D5B;
+  color: #D6DEC7;
+  border: none;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-height: 50px;
+}
+.permBtnPrimary:hover { background: #274C4A; }
+
+.permBtnGhost {
+  padding: 0.9rem;
+  background: transparent;
+  border: 1.5px solid rgba(47,93,91,0.25);
+  color: #2F5D5B;
+  border-radius: 100px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  min-height: 50px;
+  transition: all 0.15s;
+}
+.permBtnGhost:hover { background: #EFF3E8; }
+
+/* ── Top bar ── */
+.topBar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0.9rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
+  pointer-events: none;
+}
+.topBar > * { pointer-events: all; }
+
+.backBtn {
+  width: 42px; height: 42px; flex-shrink: 0;
+  background: rgba(255,255,255,0.93);
+  border: none; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #274C4A;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.22);
+  transition: all 0.15s;
+}
+.backBtn:hover { background: #fff; transform: scale(1.06); }
+
+.destPill {
+  flex: 1; min-width: 0;
+  background: rgba(255,255,255,0.93);
+  border-radius: 12px;
+  padding: 0.5rem 0.9rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.destPillName {
+  font-family: 'DM Serif Display', serif;
+  font-size: 0.95rem;
+  color: #274C4A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.destPillDist {
+  font-size: 0.72rem;
+  color: #2F5D5B;
+  opacity: 0.65;
+}
+
+.topRight { display: flex; gap: 0.4rem; align-items: center; }
+
+.iconBtn {
+  width: 42px; height: 42px;
+  background: rgba(255,255,255,0.93);
+  border: none; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #274C4A;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: all 0.15s;
+}
+.iconBtn:hover { background: #fff; transform: scale(1.06); }
+.iconBtn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+.modeToggle {
+  height: 42px; padding: 0 1rem;
+  background: rgba(255,255,255,0.93);
+  border: none; border-radius: 21px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem; font-weight: 700;
+  color: #274C4A; cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.modeToggle:hover { transform: scale(1.04); background: #fff; }
+.modeToggle3d { background: #2F5D5B; color: #D6DEC7; }
+.modeToggle3d:hover { background: #274C4A; }
+
+/* ── Next step banner ── */
+.stepBanner {
+  position: absolute;
+  top: 66px; left: 10px; right: 10px;
+  z-index: 20;
+  background: #2F5D5B;
+  border-radius: 16px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.28);
+}
+
+.stepArrowIcon {
+  font-size: 2.2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.stepInfo { flex: 1; min-width: 0; }
+
+.stepInstruction {
+  font-size: 0.93rem;
+  font-weight: 500;
+  color: #D6DEC7;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.stepDist {
+  font-size: 0.75rem;
+  color: rgba(214,222,199,0.65);
+  margin-top: 3px;
+}
+
+.stepsListBtn {
+  width: 34px; height: 34px; flex-shrink: 0;
+  background: rgba(214,222,199,0.15);
+  border: none; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #D6DEC7;
+  transition: background 0.15s;
+}
+.stepsListBtn:hover { background: rgba(214,222,199,0.28); }
+
+/* ── Arrived banner ── */
+.arrivedBanner {
+  position: absolute;
+  top: 66px; left: 10px; right: 10px;
+  z-index: 20;
+  background: #0F6E56;
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+}
+.arrivedEmoji { font-size: 2rem; flex-shrink: 0; }
+.arrivedTitle {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.05rem;
+  color: #fff;
+}
+.arrivedSub { font-size: 0.78rem; color: rgba(255,255,255,0.72); }
+.arrivedBackBtn {
+  margin-left: auto; flex-shrink: 0;
+  padding: 0.4rem 0.9rem;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 100px;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-height: 36px;
+}
+.arrivedBackBtn:hover { background: rgba(255,255,255,0.35); }
+
+/* ── Bottom info bar ── */
+.bottomBar {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0.9rem;
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%);
+  pointer-events: none;
+}
+.bottomBar > * { pointer-events: all; }
+
+.trackBtn {
+  display: flex; align-items: center; gap: 6px;
+  padding: 0.5rem 0.9rem;
+  background: rgba(255,255,255,0.9);
+  border: none; border-radius: 100px;
+  font-family: 'DM Sans', sans-serif; font-size: 0.8rem;
+  color: #274C4A; cursor: pointer;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  transition: all 0.15s; min-height: 40px;
+  white-space: nowrap;
+}
+.trackBtnOn { background: #2F5D5B; color: #D6DEC7; }
+.trackBtn:hover { transform: scale(1.03); }
+
+.etaCard {
+  flex: 1;
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  padding: 0.5rem 0.85rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.etaTime {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem;
+  color: #274C4A;
+  line-height: 1;
+}
+.etaDist {
+  font-size: 0.68rem;
+  color: #2F5D5B;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+
+.speedCard {
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  min-width: 52px;
+}
+.speedVal {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  color: #274C4A;
+  line-height: 1;
+}
+.speedUnit {
+  font-size: 0.62rem;
+  color: #2F5D5B;
+  opacity: 0.6;
+}
+
+.stepCounter {
+  background: rgba(255,255,255,0.9);
+  border-radius: 12px;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.stepCounterNum {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: #274C4A;
+  line-height: 1;
+}
+.stepCounterNum span { font-size: 0.8rem; opacity: 0.6; }
+.stepCounterLbl {
+  font-size: 0.62rem;
+  color: #2F5D5B;
+  opacity: 0.6;
+}
+
+/* ── Steps drawer ── */
+.stepsDrawer {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  z-index: 30;
+  background: #FAFAF8;
+  border-radius: 20px 20px 0 0;
+  max-height: 62vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.2);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.drawerHandle {
+  width: 40px; height: 4px;
+  background: rgba(47,93,91,0.2);
+  border-radius: 2px;
+  margin: 0.75rem auto 0;
+  flex-shrink: 0;
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(47,93,91,0.08);
+  flex-shrink: 0;
+  gap: 0.5rem;
+}
+.drawerTitle {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.15rem;
+  color: #274C4A;
+  flex: 1;
+}
+.drawerMeta {
+  font-size: 0.78rem;
+  color: #2F5D5B;
+  opacity: 0.55;
+}
+.drawerClose {
+  background: none; border: none; cursor: pointer;
+  color: #2F5D5B; opacity: 0.45; font-size: 1.1rem;
+  min-width: 44px; min-height: 44px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; transition: opacity 0.15s;
+}
+.drawerClose:hover { opacity: 1; }
+
+.drawerBody {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1;
+  padding: 0.4rem 0;
+}
+
+.drawerStep {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(47,93,91,0.04);
+  transition: background 0.12s;
+}
+.drawerStep:last-child { border-bottom: none; }
+
+.drawerStepCurrent {
+  background: rgba(47,93,91,0.07);
+  border-left: 3px solid #2F5D5B;
+  padding-left: calc(1.25rem - 3px);
+}
+.drawerStepDone { opacity: 0.4; }
+
+.drawerStepIcon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  width: 32px;
+  text-align: center;
+  padding-top: 1px;
+}
+.drawerStepBody { flex: 1; min-width: 0; }
+.drawerStepText {
+  font-size: 0.875rem;
+  color: #274C4A;
+  line-height: 1.45;
+}
+.drawerStepDist {
+  font-size: 0.72rem;
+  color: #2F5D5B;
+  opacity: 0.55;
+  margin-top: 2px;
+}
+
+/* ── Route calculating overlay ── */
+.calcOverlay {
+  position: absolute;
+  bottom: 72px; left: 50%; transform: translateX(-50%);
+  z-index: 25;
+  background: rgba(39,76,74,0.88);
+  color: #D6DEC7;
+  padding: 0.55rem 1.1rem;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+  white-space: nowrap;
+}
+
+/* ── Spinners ── */
+.spinnerLight {
+  display: block;
+  width: 22px; height: 22px;
+  border: 2.5px solid rgba(47,93,91,0.15);
+  border-top-color: #2F5D5B;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinnerSm {
+  display: block;
+  width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Responsive ── */
+@media (min-width: 640px) {
+  .stepBanner   { top: 72px; left: 16px; right: 16px; }
+  .arrivedBanner{ top: 72px; left: 16px; right: 16px; }
+  .topBar       { padding: 1rem 1.25rem; }
+  .bottomBar    { padding: 1rem 1.25rem; }
+  .stepsDrawer  { max-width: 460px; left: auto; right: 16px; border-radius: 20px; bottom: 80px; max-height: 55vh; }
+}
+
+@media (max-width: 360px) {
+  .stepInstruction { font-size: 0.83rem; }
+  .etaTime         { font-size: 1rem; }
+  .destPillName    { font-size: 0.85rem; }
+}

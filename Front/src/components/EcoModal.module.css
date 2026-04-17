@@ -1,0 +1,369 @@
+/* EcoModal.module.css */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 600;
+  background: rgba(20, 50, 30, 0.72);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+.modal {
+  background: #FAFAF8;
+  border-radius: 24px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 30px 80px rgba(20, 60, 30, 0.35),
+    0 0 0 1px rgba(77, 184, 90, 0.15);
+  margin: auto;
+}
+
+/* ── Skip button ── */
+.skipBtn {
+  position: absolute;
+  top: 12px; right: 12px;
+  z-index: 10;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.75);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; color: #555;
+  transition: all 0.15s;
+}
+.skipBtn:hover { background: #fff; color: #222; }
+
+/* ── Upsell screen ── */
+.upsellScreen {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Illustration */
+.illustrationWrap {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.treesvg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.counterBadge {
+  position: absolute;
+  bottom: 12px; left: 14px;
+  background: rgba(47, 93, 91, 0.92);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+  padding: 0.45rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid rgba(77,184,90,0.3);
+}
+.counterNum {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  color: #D6DEC7;
+  line-height: 1;
+}
+.counterLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  color: rgba(214,222,199,0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Copy area */
+.copy {
+  padding: 1.5rem 1.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.tagLine {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #2F5D5B;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.leafIcon { font-size: 0.9rem; }
+
+.headline {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(1.5rem, 4vw, 1.9rem);
+  color: #1a3a20;
+  line-height: 1.2;
+  margin: 0;
+}
+.headline em {
+  font-style: italic;
+  color: #2d7d3a;
+}
+
+.body {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #2F5D5B;
+  line-height: 1.7;
+  margin: 0;
+  opacity: 0.85;
+}
+.body strong { color: #1a3a20; }
+
+.teamLink {
+  color: #2d7d3a;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(45,125,58,0.4);
+  transition: border-color 0.15s;
+}
+.teamLink:hover { border-color: #2d7d3a; }
+
+/* Stats row */
+.statsRow {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.statItem {
+  flex: 1;
+  background: #EFF3E8;
+  border-radius: 12px;
+  padding: 0.75rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid rgba(77,184,90,0.15);
+}
+.statIcon { font-size: 1.1rem; }
+.statVal {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1rem;
+  color: #1a3a20;
+}
+.statLabel {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.65rem;
+  color: #2F5D5B;
+  opacity: 0.7;
+  text-align: center;
+}
+
+.subText {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  color: #2F5D5B;
+  opacity: 0.6;
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* CTA group */
+.ctaGroup {
+  padding: 1.25rem 1.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.donateBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  background: linear-gradient(135deg, #2d7d3a 0%, #1f5c2b 100%);
+  color: #D6DEC7;
+  border: none;
+  border-radius: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+  min-height: 52px;
+  box-shadow: 0 4px 18px rgba(45,125,58,0.35);
+  position: relative;
+  overflow: hidden;
+}
+.donateBtn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.08) 0%, transparent 100%);
+  pointer-events: none;
+}
+.donateBtn:hover {
+  box-shadow: 0 6px 24px rgba(45,125,58,0.45);
+  background: linear-gradient(135deg, #34903f 0%, #235f2d 100%);
+}
+
+.donateBtnIcon { font-size: 1.2rem; }
+
+.skipLink {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  color: #2F5D5B;
+  opacity: 0.55;
+  text-align: center;
+  padding: 0.35rem;
+  transition: opacity 0.15s;
+  min-height: 36px;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.skipLink:hover { opacity: 0.85; }
+
+/* Trust badges */
+.trustRow {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.75rem 1.5rem;
+  flex-wrap: wrap;
+}
+
+.trustBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem;
+  color: #2F5D5B;
+  opacity: 0.6;
+}
+
+/* ── Thanks screen ── */
+.thanksScreen {
+  padding: 2rem 1.75rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.thanksTreeWrap {
+  width: 100%;
+  max-width: 260px;
+  height: 160px;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.thanksConfetti {
+  position: relative;
+  height: 0;
+  display: flex;
+  justify-content: center;
+}
+.confettiPiece {
+  position: absolute;
+  font-size: 1.2rem;
+  top: -30px;
+  pointer-events: none;
+}
+
+.thanksTitle {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.75rem;
+  color: #1a3a20;
+  margin: 0;
+}
+
+.thanksBody {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  color: #2F5D5B;
+  line-height: 1.65;
+  max-width: 340px;
+  opacity: 0.85;
+  margin: 0;
+}
+.thanksBody strong { color: #1a3a20; }
+
+.thanksCard {
+  width: 100%;
+  background: #EFF3E8;
+  border-radius: 14px;
+  border: 1px solid rgba(77,184,90,0.2);
+  overflow: hidden;
+}
+.thanksCardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(77,184,90,0.12);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  color: #2F5D5B;
+}
+.thanksCardRow:last-child { border-bottom: none; }
+.thanksCardRow strong { color: #1a3a20; font-weight: 600; }
+
+.thanksLink {
+  color: #2d7d3a;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1.5px solid rgba(45,125,58,0.4);
+}
+.thanksLink:hover { border-color: #2d7d3a; }
+
+.goNavBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 0.9rem 1.5rem;
+  background: #2F5D5B;
+  color: #D6DEC7;
+  border: none;
+  border-radius: 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+  min-height: 50px;
+  box-shadow: 0 4px 16px rgba(47,93,91,0.3);
+}
+.goNavBtn:hover { background: #274C4A; transform: translateY(-1px); }
+
+/* ── Mobile tweaks ── */
+@media (max-width: 400px) {
+  .copy          { padding: 1.25rem 1.25rem 0; }
+  .ctaGroup      { padding: 1rem 1.25rem 0; }
+  .trustRow      { padding: 0.75rem 1.25rem 1.25rem; }
+  .thanksScreen  { padding: 1.5rem 1.25rem; }
+  .statsRow      { gap: 0.4rem; }
+  .statItem      { padding: 0.6rem 0.35rem; }
+}

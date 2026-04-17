@@ -1,0 +1,195 @@
+/* POIPopup.module.css — clean, minimal, progressive disclosure */
+
+.card {
+  width: 230px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Top row: chips */
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.typeChip {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.typeChipFuel { background: #FEF3C7; color: #92400E; }
+.typeChipEV   { background: #EFF6FF; color: #1E40AF; }
+
+.h24Chip {
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(47,93,91,0.09);
+  color: #2F5D5B;
+}
+
+/* Name & address */
+.name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1a3835;
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+.address {
+  font-size: 11px;
+  color: #2F5D5B;
+  opacity: 0.6;
+  margin-bottom: 8px;
+}
+
+/* Price chips */
+.priceRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.priceChip {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: #F0F6EE;
+  border: 1px solid rgba(47,93,91,0.12);
+  border-radius: 8px;
+  padding: 5px 8px;
+  flex: 1;
+  min-width: 80px;
+}
+.fuelName  { font-size: 10px; color: #2F5D5B; opacity: 0.7; }
+.fuelPrice { font-size: 14px; font-weight: 700; color: #1a3835; line-height: 1; }
+.fuelUnit  { font-size: 9px; font-weight: 400; color: #2F5D5B; opacity: 0.6; margin-left: 1px; }
+
+/* Busy row */
+.busyRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  margin-bottom: 7px;
+}
+.busyDot  { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.busyLabel{ font-weight: 600; }
+.busySep  { color: #2F5D5B; opacity: 0.3; }
+.busyHours{ color: #2F5D5B; opacity: 0.6; font-size: 10px; }
+
+/* Mini chart */
+.miniChart {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 26px;
+  background: rgba(47,93,91,0.04);
+  border-radius: 5px;
+  padding: 3px 4px 0;
+  margin-bottom: 2px;
+}
+.miniChartCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  height: 100%;
+  justify-content: flex-end;
+}
+.miniBar {
+  width: 100%;
+  background: rgba(47,93,91,0.22);
+  border-radius: 2px 2px 0 0;
+  min-height: 3px;
+  transition: height 0.3s;
+}
+.miniBarNow { background: #2F5D5B; }
+.miniChartLabel { font-size: 8px; color: #2F5D5B; opacity: 0.45; line-height: 1; }
+
+/* Expand button */
+.expandBtn {
+  display: block;
+  width: 100%;
+  padding: 5px 0;
+  margin-top: 6px;
+  background: none;
+  border: none;
+  border-top: 1px solid rgba(47,93,91,0.08);
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  color: #2F5D5B;
+  opacity: 0.55;
+  text-align: center;
+  transition: opacity 0.15s;
+}
+.expandBtn:hover { opacity: 1; }
+
+/* Expanded details */
+.details {
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailSection { display: flex; flex-direction: column; gap: 3px; }
+
+.detailTitle {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #2F5D5B;
+  opacity: 0.5;
+  margin-bottom: 2px;
+}
+
+.detailPriceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #274C4A;
+  padding: 2px 0;
+  border-bottom: 1px solid rgba(47,93,91,0.05);
+}
+.detailPriceRow:last-child { border-bottom: none; }
+.detailPriceRow strong { font-weight: 600; }
+
+.socketRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #274C4A;
+}
+.socketLabel { flex: 1; }
+.socketCount { font-weight: 600; color: #2563EB; font-size: 10px; }
+
+.detailMeta { font-size: 10px; color: #2F5D5B; opacity: 0.6; }
+
+.linksRow { display: flex; gap: 6px; margin-top: 4px; }
+.link {
+  font-size: 11px; font-weight: 500; color: #2F5D5B;
+  text-decoration: none; padding: 3px 8px;
+  border-radius: 6px; background: rgba(47,93,91,0.07);
+  transition: background 0.15s;
+}
+.link:hover { background: rgba(47,93,91,0.16); }
+
+.priceNote {
+  font-size: 9px; color: #2F5D5B; opacity: 0.4;
+  font-style: italic; margin-top: 2px;
+}

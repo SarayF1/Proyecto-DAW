@@ -1,0 +1,118 @@
+/* VehiculosPage.module.css */
+.page { min-height: calc(100vh - 64px); margin-top: 64px; padding: 1.5rem 1rem; background: var(--green-light); }
+@media (min-width: 640px) { .page { padding: 2.5rem 2rem; } }
+.inner { max-width: 960px; margin: 0 auto; }
+
+.loading { display: flex; align-items: center; justify-content: center; height: calc(100vh - 64px); margin-top: 64px; gap: 12px; color: var(--teal-dark); }
+
+.header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem; }
+.pageTitle { font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.2rem); color: var(--teal-darker); margin-bottom: 0.2rem; }
+.pageSub { font-size: 0.875rem; color: var(--teal-dark); opacity: 0.6; }
+
+.infoBanner {
+  display: flex; align-items: flex-start; gap: 0.75rem;
+  background: rgba(47,93,91,0.07); border: 1px solid rgba(47,93,91,0.14);
+  border-radius: var(--radius-md); padding: 0.85rem 1rem;
+  margin-bottom: 1.75rem;
+  font-size: 0.84rem; color: var(--teal-dark); line-height: 1.5;
+}
+.infoBanner svg { flex-shrink: 0; margin-top: 1px; color: var(--teal-dark); opacity: 0.7; }
+.infoBanner strong { color: var(--teal-darker); }
+
+.addBtn { display: flex; align-items: center; gap: 7px; padding: 0.65rem 1.4rem; background: var(--teal-dark); color: var(--green-light); border: none; border-radius: var(--radius-pill); font-family: var(--font-body); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.18s; min-height: 44px; }
+.addBtn:hover { background: var(--teal-darker); transform: translateY(-1px); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.1rem; }
+
+/* Car card */
+.carCard { background: var(--white); border: 1px solid rgba(47,93,91,0.1); border-radius: var(--radius-lg); padding: 1.25rem; display: flex; flex-direction: column; gap: 0.85rem; transition: box-shadow 0.2s; }
+.carCard:hover { box-shadow: var(--shadow-sm); }
+
+.carTop { display: flex; align-items: center; gap: 0.9rem; }
+.carIconWrap { width: 48px; height: 48px; background: var(--green-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; color: var(--teal-dark); flex-shrink: 0; }
+.carInfo { flex: 1; min-width: 0; }
+.carName { font-family: var(--font-display); font-size: 1.1rem; color: var(--teal-darker); }
+.carPlate { display: inline-block; background: var(--teal-dark); color: var(--green-light); padding: 0.15rem 0.6rem; border-radius: 5px; font-size: 0.82rem; font-weight: 500; letter-spacing: 0.08em; font-family: monospace; margin-top: 0.2rem; }
+.carYear { font-size: 0.75rem; color: var(--teal-dark); opacity: 0.55; margin-top: 2px; }
+
+.badgeRow { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.badge { padding: 0.22rem 0.65rem; border-radius: var(--radius-pill); font-size: 0.75rem; font-weight: 500; border: 1px solid transparent; white-space: nowrap; }
+
+.discountBadge { padding: 0.22rem 0.65rem; border-radius: var(--radius-pill); font-size: 0.72rem; font-weight: 500; background: rgba(15,110,86,0.1); color: #0F6E56; border: 1px solid rgba(15,110,86,0.2); white-space: nowrap; }
+.surchargeBadge { background: rgba(153,60,29,0.1); color: #993C1D; border-color: rgba(153,60,29,0.2); }
+.neutralBadge { background: rgba(100,100,100,0.08); color: #666; border-color: rgba(100,100,100,0.15); }
+
+.carActions { display: flex; gap: 0.6rem; border-top: 1px solid rgba(47,93,91,0.07); padding-top: 0.85rem; }
+.editBtn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0.5rem; border-radius: var(--radius-pill); font-family: var(--font-body); font-size: 0.82rem; cursor: pointer; transition: all 0.15s; background: var(--green-light); border: 1.5px solid rgba(47,93,91,0.15); color: var(--teal-darker); min-height: 40px; }
+.editBtn:hover { border-color: var(--teal-dark); background: var(--teal-dark); color: var(--green-light); }
+.deleteBtn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0.5rem; border-radius: var(--radius-pill); font-family: var(--font-body); font-size: 0.82rem; cursor: pointer; transition: all 0.15s; background: transparent; border: 1.5px solid rgba(153,60,29,0.2); color: #993C1D; min-height: 40px; }
+.deleteBtn:hover:not(:disabled) { background: #FAECE7; border-color: #993C1D; }
+.deleteBtn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Empty */
+.empty { display: flex; flex-direction: column; align-items: center; gap: 1.25rem; padding: 5rem 2rem; text-align: center; color: var(--teal-dark); opacity: 0.45; }
+.empty p { font-size: 1rem; }
+
+/* Modal */
+.overlay { position: fixed; inset: 0; z-index: 500; background: rgba(39,76,74,0.72); backdrop-filter: blur(6px); display: flex; align-items: center; justify-content: center; padding: 1rem; overflow-y: auto; }
+.modal { background: var(--white); border-radius: var(--radius-xl); width: 100%; max-width: 480px; padding: 2.25rem; position: relative; box-shadow: var(--shadow-lg); margin: auto; }
+.modalClose { position: absolute; top: 1.1rem; right: 1.1rem; background: none; border: none; cursor: pointer; color: var(--teal-dark); opacity: 0.45; padding: 4px; border-radius: 6px; transition: opacity 0.15s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+.modalClose:hover { opacity: 1; }
+.modalTitle { font-family: var(--font-display); font-size: 1.6rem; color: var(--teal-darker); margin-bottom: 1.5rem; }
+
+.form { display: flex; flex-direction: column; gap: 0.9rem; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.field { display: flex; flex-direction: column; gap: 0.35rem; }
+.label { font-size: 0.8rem; font-weight: 500; color: var(--teal-darker); }
+.input { width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid rgba(47,93,91,0.18); border-radius: var(--radius-sm); font-family: var(--font-body); font-size: 0.9rem; color: var(--teal-darker); background: var(--surface); outline: none; transition: border-color 0.15s; min-height: 44px; }
+.input:focus { border-color: var(--teal-dark); }
+
+/* Section divider */
+.sectionDivider { display: flex; align-items: center; gap: 0.75rem; margin: 0.4rem 0 0; }
+.sectionDivider span { font-size: 0.78rem; font-weight: 600; color: var(--teal-dark); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+.sectionDivider::before, .sectionDivider::after { content: ''; flex: 1; height: 1px; background: rgba(47,93,91,0.12); }
+.sectionHint { font-size: 0.78rem; color: var(--teal-dark); opacity: 0.6; line-height: 1.5; }
+
+/* Eco label grid */
+.ecoGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+@media (max-width: 360px) { .ecoGrid { grid-template-columns: 1fr; } }
+
+.ecoOption { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 0.65rem 0.5rem; border: 1.5px solid rgba(47,93,91,0.14); border-radius: var(--radius-md); cursor: pointer; transition: all 0.15s; text-align: center; background: var(--surface); min-height: 80px; justify-content: center; }
+.ecoOption:hover { border-color: rgba(47,93,91,0.3); background: var(--green-light); }
+.ecoOptionActive { font-weight: 600; }
+.ecoOptionIcon { font-size: 1.4rem; line-height: 1; }
+.ecoOptionLabel { font-size: 0.78rem; color: var(--teal-darker); font-weight: 500; }
+.ecoOptionDisc { font-size: 0.72rem; font-weight: 700; }
+
+/* PMR toggle */
+.pmrToggle { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; padding: 0.9rem 1rem; border: 1.5px solid rgba(47,93,91,0.14); border-radius: var(--radius-md); cursor: pointer; transition: all 0.18s; background: var(--surface); }
+.pmrToggleActive { border-color: rgba(37,99,235,0.4); background: rgba(37,99,235,0.05); }
+.pmrToggleLeft { display: flex; align-items: center; gap: 0.75rem; flex: 1; }
+.pmrIcon { font-size: 1.4rem; flex-shrink: 0; }
+.pmrLabel { font-size: 0.875rem; font-weight: 500; color: var(--teal-darker); }
+.pmrSub { font-size: 0.72rem; color: var(--teal-dark); opacity: 0.6; margin-top: 1px; line-height: 1.4; }
+
+.pmrSwitch { width: 40px; height: 22px; background: rgba(47,93,91,0.15); border-radius: 11px; padding: 2px; transition: background 0.2s; flex-shrink: 0; position: relative; }
+.pmrSwitchOn { background: #2563EB; }
+.pmrSwitchThumb { width: 18px; height: 18px; background: #fff; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); position: absolute; top: 2px; left: 2px; }
+.pmrSwitchOn .pmrSwitchThumb { transform: translateX(18px); }
+
+/* Live preview box */
+.previewBox { background: var(--green-light); border: 1px solid rgba(47,93,91,0.15); border-radius: var(--radius-md); padding: 0.9rem 1rem; }
+.previewTitle { font-size: 0.8rem; font-weight: 600; color: var(--teal-darker); margin-bottom: 0.5rem; }
+.previewCalc { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.previewBase { font-family: var(--font-display); font-size: 1.1rem; color: var(--teal-dark); opacity: 0.5; text-decoration: line-through; }
+.previewArrow { color: var(--teal-dark); opacity: 0.4; }
+.previewFinal { font-family: var(--font-display); font-size: 1.4rem; color: var(--teal-darker); }
+.previewNote { font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: var(--radius-pill); background: rgba(47,93,91,0.08); color: var(--teal-dark); }
+.previewFootnote { font-size: 0.7rem; color: var(--teal-dark); opacity: 0.5; margin-top: 0.35rem; }
+
+/* Save / SR */
+.saveBtn { width: 100%; padding: 0.85rem; background: var(--teal-dark); color: var(--green-light); border: none; border-radius: var(--radius-pill); font-family: var(--font-body); font-size: 1rem; font-weight: 500; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 0.25rem; min-height: 50px; }
+.saveBtn:hover:not(:disabled) { background: var(--teal-darker); transform: translateY(-1px); }
+.saveBtn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.srOnly { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+.spinner { width: 16px; height: 16px; border: 2px solid rgba(214,222,199,0.3); border-top-color: var(--green-light); border-radius: 50%; animation: spin 0.7s linear infinite; }
+.spinnerSmall { width: 13px; height: 13px; border: 2px solid rgba(153,60,29,0.2); border-top-color: #993C1D; border-radius: 50%; animation: spin 0.7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (max-width: 480px) { .modal { padding: 1.75rem 1.25rem; } .row { grid-template-columns: 1fr; } }
