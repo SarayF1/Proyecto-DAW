@@ -7,9 +7,13 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'https://myparking-backend.onrender.com',
+        // Backend local (dev): arranca con `npm run dev` en /Back (puerto 3001).
+        // Para apuntar al backend de Render en prod, comenta la línea de abajo
+        // y descomenta la siguiente.
+        target: 'http://localhost:3001',
+        // target: 'https://myparking-backend.onrender.com',
         changeOrigin: true,
-        secure: true,
+        secure: false,
       }
     }
   }

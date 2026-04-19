@@ -183,7 +183,7 @@ export default function PaymentPage() {
       doc.setFontSize(8)
       doc.setFont('helvetica', 'normal')
       doc.text('Este documento es un comprobante de pago generado automáticamente por Myparking.', 20, 280)
-      doc.text('© 2025 Myparking · IES Puerto del Rosario · myparking-frontend.onrender.com', 20, 285)
+      doc.text('© 2025 Myparking · Puerto del Rosario · myparking-frontend.onrender.com', 20, 285)
 
       doc.save(`myparking-recibo-${receipt.id}.pdf`)
       toast.success('Recibo descargado')

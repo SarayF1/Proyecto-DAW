@@ -310,7 +310,7 @@ export default function LandingPage() {
           </div>
         </div>
         <div className={styles.footerBottom}>
-          <span>© 2025 Myparking · Proyecto DAW · IES Puerto del Rosario</span>
+          <span>© 2025 Myparking · Proyecto DAW · Puerto del Rosario</span>
           <span>React · Vite · Node.js · MySQL</span>
         </div>
       </footer>

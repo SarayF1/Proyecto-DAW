@@ -80,32 +80,29 @@ export const vehiculosApi = {
 }
 
 // ── Admin ─────────────────────────────────────
-// Note: only these 4 routes exist on the deployed backend:
-//   GET  /admin/estadisticas
-//   GET  /admin/reservas-activas
-//   GET  /admin/reservas-por-zona
-//   PUT  /admin/reservas/:id/finalizar
-// The endpoints below fall back to public/me routes where possible.
 export const adminApi = {
-  getEstadisticas:   () => request('/admin/estadisticas'),
-  getReservasActivas:() => request('/admin/reservas-activas'),
-  getReservasPorZona:() => request('/admin/reservas-por-zona'),
-  finalizarReserva:  (id) => request(`/admin/reservas/${id}/finalizar`, { method: 'PUT' }),
+  // Dashboard
+  getEstadisticas:    () => request('/admin/estadisticas'),
+  getReservasActivas: () => request('/admin/reservas-activas'),
+  getReservasPorZona: () => request('/admin/reservas-por-zona'),
+  getIngresosDiarios: () => request('/admin/ingresos-diarios'),
 
-  // ── Usuarios: /admin/usuarios not deployed → graceful 404 handler in AdminPage ──
-  getUsuarios: () => request('/admin/usuarios'),
+  // Reservas
+  getAllReservas:    () => request('/admin/reservas'),
+  finalizarReserva:  (id) => request(`/admin/reservas/${id}/finalizar`, { method: 'PUT' }),
+  deleteReserva:     (id) => request(`/admin/reservas/${id}`, { method: 'DELETE' }),
+  reembolsarReserva: (id, payload) =>
+    request(`/admin/reservas/${id}/reembolsar`, { method: 'POST', body: JSON.stringify(payload) }),
+
+  // Usuarios
+  getUsuarios:   () => request('/admin/usuarios'),
   updateUsuario: (id, payload) =>
     request(`/admin/usuarios/${id}`, { method: 'PUT', body: JSON.stringify(payload) }),
   deleteUsuario: (id) =>
     request(`/admin/usuarios/${id}`, { method: 'DELETE' }),
 
-  // ── Plazas: /admin/plazas not deployed → fall back to public /plazas ──
-  getPlazasAdmin: () => request('/plazas'),           // public endpoint — works
-  updatePlaza: (id, payload) =>
+  // Plazas
+  getPlazasAdmin: () => request('/admin/plazas'),
+  updatePlaza:    (id, payload) =>
     request(`/admin/plazas/${id}`, { method: 'PUT', body: JSON.stringify(payload) }),
-
-  // ── All reservas: use reservas-activas as source ──
-  getAllReservas: () => request('/admin/reservas-activas'),
-  deleteReserva: (id) =>
-    request(`/admin/reservas/${id}`, { method: 'DELETE' }),
 }

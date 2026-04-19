@@ -23,7 +23,8 @@
     "@stripe/react-stripe-js": "^2.7.1",
     "@react-oauth/google": "^0.12.1",
     "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.8.2"
+    "jspdf-autotable": "^3.8.2",
+    "recharts": "^2.12.7"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

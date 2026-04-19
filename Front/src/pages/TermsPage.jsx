@@ -28,7 +28,7 @@ export default function TermsPage() {
                 Al acceder y utilizar la plataforma <strong>Myparking</strong> (en adelante, "el Servicio"), usted acepta quedar vinculado por estos Términos y Condiciones de Uso, nuestra <Link to="/privacidad">Política de Privacidad</Link> y cualquier política adicional que se publique en la plataforma. Si no está de acuerdo con alguna parte de estos términos, no podrá acceder al Servicio.
               </p>
               <p>
-                El Servicio está operado por el equipo Myparking en el marco del proyecto de fin de ciclo del IES Puerto del Rosario, Fuerteventura, España.
+                El Servicio está operado por el equipo Myparking en el marco del proyecto de fin de ciclo de DAW, en Puerto del Rosario, Fuerteventura, España.
               </p>
             </section>
 
@@ -141,7 +141,7 @@ export default function TermsPage() {
               <p>Para cualquier consulta relacionada con estos Términos, puede contactarnos en:</p>
               <div className={styles.infoBox}>
                 <div className={styles.infoRow}><span>Email</span><span>admin@myparking.com</span></div>
-                <div className={styles.infoRow}><span>Dirección</span><span>IES Puerto del Rosario, Fuerteventura, Las Palmas</span></div>
+                <div className={styles.infoRow}><span>Dirección</span><span>Puerto del Rosario, Fuerteventura, Las Palmas</span></div>
                 <div className={styles.infoRow}><span>Horario de atención</span><span>Lunes a viernes, 9:00–18:00 (hora peninsular)</span></div>
               </div>
             </section>
