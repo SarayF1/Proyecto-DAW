@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'https://myparking-backend.onrender.com',
+        target: 'http://localhost:3006',
         changeOrigin: true,
         secure: true,
       }
