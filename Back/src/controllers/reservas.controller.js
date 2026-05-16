@@ -15,7 +15,7 @@ const cleanupExpiredReservations = async () => {
       WHERE Estado = 'EN CURSO'
         AND Fecha_fin < NOW()
       FOR UPDATE
-      `
+      `,
     );
 
     if (reservasVencidas.length === 0) {
@@ -23,17 +23,17 @@ const cleanupExpiredReservations = async () => {
       return;
     }
 
-    const reservaIds = reservasVencidas.map(r => r.idReserva);
-    const plazaIds = reservasVencidas.map(r => r.id_Plaza);
+    const reservaIds = reservasVencidas.map((r) => r.idReserva);
+    const plazaIds = reservasVencidas.map((r) => r.id_Plaza);
 
     await conn.query(
       `UPDATE Reserva SET Estado = 'FINALIZADA' WHERE idReserva IN (?)`,
-      [reservaIds]
+      [reservaIds],
     );
 
     await conn.query(
       `UPDATE Plaza SET Estado_Plaza = 'LIBRE' WHERE idPlaza IN (?)`,
-      [plazaIds]
+      [plazaIds],
     );
 
     await conn.commit();
@@ -45,7 +45,6 @@ const cleanupExpiredReservations = async () => {
   }
 };
 
-
 export const getMisReservas = async (req, res) => {
   const idUsuario = req.user.idUsuario;
 
@@ -55,21 +54,36 @@ export const getMisReservas = async (req, res) => {
 
     const [rows] = await pool.query(
       `
-      SELECT
-        r.idReserva,
-        r.Estado,
-        r.Fecha_inicio,
-        r.Fecha_fin,
-        p.idPlaza,
-        z.nombre AS zona,
-        z.Localidad
-      FROM Reserva r
-      JOIN Plaza p ON r.id_Plaza = p.idPlaza
-      JOIN Zona z ON p.id_Zona = z.idZona
-      WHERE r.id_Usuario = ?
-      ORDER BY r.Fecha_inicio DESC
-      `,
-      [idUsuario]
+  SELECT
+    r.idReserva,
+    r.Estado,
+    r.Fecha_inicio,
+    r.Fecha_fin,
+    p.idPlaza,
+    z.nombre   AS zona,
+    z.Localidad,
+    z.Tarifa   AS tarifa,
+    COALESCE(pag.pagado, 0)      AS pagado,
+    COALESCE(rmb.reembolsado, 0) AS reembolsado
+  FROM Reserva r
+  JOIN Plaza p ON r.id_Plaza = p.idPlaza
+  JOIN Zona  z ON p.id_Zona  = z.idZona
+  LEFT JOIN (
+    SELECT id_Reserva, SUM(cantidad) AS pagado
+    FROM Monedero_Movimientos
+    WHERE tipo = 'GASTO' AND id_Reserva IS NOT NULL
+    GROUP BY id_Reserva
+  ) pag ON pag.id_Reserva = r.idReserva
+  LEFT JOIN (
+    SELECT id_Reserva, SUM(cantidad) AS reembolsado
+    FROM Monedero_Movimientos
+    WHERE tipo = 'INGRESO' AND id_Reserva IS NOT NULL
+    GROUP BY id_Reserva
+  ) rmb ON rmb.id_Reserva = r.idReserva
+  WHERE r.id_Usuario = ?
+  ORDER BY r.Fecha_inicio DESC
+  `,
+      [idUsuario],
     );
 
     res.json(rows);
@@ -79,10 +93,8 @@ export const getMisReservas = async (req, res) => {
   }
 };
 
-
-
 export const crearReserva = async (req, res) => {
-  const { idPlaza, Fecha_inicio, Fecha_fin, idVehiculo} = req.body;
+  const { idPlaza, Fecha_inicio, Fecha_fin, idVehiculo } = req.body;
   const idUsuario = req.user.idUsuario;
 
   if (!idPlaza || !Fecha_inicio || !Fecha_fin || !idVehiculo) {
@@ -103,7 +115,7 @@ export const crearReserva = async (req, res) => {
       WHERE p.idPlaza = ?
       FOR UPDATE
       `,
-      [idPlaza]
+      [idPlaza],
     );
 
     if (!zona) {
@@ -111,8 +123,7 @@ export const crearReserva = async (req, res) => {
     }
 
     /* 2️⃣ Calcular importe */
-    const minutos =
-      (new Date(Fecha_fin) - new Date(Fecha_inicio)) / 60000;
+    const minutos = (new Date(Fecha_fin) - new Date(Fecha_inicio)) / 60000;
     const importe = Number(((minutos / 60) * zona.Tarifa).toFixed(2));
 
     /* 3️⃣ Obtener monedero */
@@ -123,7 +134,7 @@ export const crearReserva = async (req, res) => {
       WHERE id_Usuario = ?
       FOR UPDATE
       `,
-      [idUsuario]
+      [idUsuario],
     );
 
     if (!monedero) {
@@ -140,7 +151,7 @@ export const crearReserva = async (req, res) => {
       INSERT INTO Reserva (Estado, Fecha_inicio, Fecha_fin, id_Usuario, id_Plaza, id_Vehiculo)
       VALUES ('EN CURSO', ?, ?, ?, ?, ?)
       `,
-      [Fecha_inicio, Fecha_fin, idUsuario, idPlaza, idVehiculo]
+      [Fecha_inicio, Fecha_fin, idUsuario, idPlaza, idVehiculo],
     );
 
     const idReserva = reservaResult.insertId;
@@ -152,7 +163,7 @@ export const crearReserva = async (req, res) => {
       SET Estado_Plaza = 'EN USO'
       WHERE idPlaza = ?
       `,
-      [idPlaza]
+      [idPlaza],
     );
 
     /* 6️⃣ Descontar saldo */
@@ -162,7 +173,7 @@ export const crearReserva = async (req, res) => {
       SET saldo = saldo - ?
       WHERE idMonedero = ?
       `,
-      [importe, monedero.idMonedero]
+      [importe, monedero.idMonedero],
     );
 
     /* 7️⃣ Insertar movimiento */
@@ -178,7 +189,7 @@ export const crearReserva = async (req, res) => {
         `Reserva parking ${zona.nombre}`,
         importe,
         idReserva,
-      ]
+      ],
     );
 
     await conn.commit();
@@ -186,7 +197,10 @@ export const crearReserva = async (req, res) => {
     res.status(201).json({
       message: "Reserva creada correctamente",
       importe,
-    }); console.log(`Reserva ${idReserva} creada por usuario usuario con ID ${idUsuario}. En la plaza ${idPlaza} con importe ${importe}€`);
+    });
+    console.log(
+      `Reserva ${idReserva} creada por usuario usuario con ID ${idUsuario}. En la plaza ${idPlaza} con importe ${importe}€`,
+    );
   } catch (error) {
     await conn.rollback();
     console.error(error);

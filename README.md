@@ -1,12 +1,12 @@
-# [MyParking](https://myparking-frontend.onrender.com/)
+# [MyParking](https://oscar.informaticamajada.es/)
 <br>
 <br>
 <div align="center">
-    <img src="./Front/src/assets/logo2.png" alt="MyParking Logo" width="250">
+    <img src="./Front/public/logo2.png" alt="MyParking Logo" width="250">
 </div>
 <br>
 <div align="center">
-    <strong>[Ver Proyecto](https://myparking-frontend.onrender.com/)</strong>
+    <strong>[Ver Proyecto](https://oscar.informaticamajada.es/)</strong>
 </div>
 
 <br>

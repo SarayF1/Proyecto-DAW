@@ -2,7 +2,6 @@ drop database if exists MyParking;
 create database MyParking;
 use MyParking;
 
-use railway;
 
 -- Para redeploys: modificar lo de arriba, en railway se usa la bd "railway" 
 -- Use: railway;

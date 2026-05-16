@@ -20,7 +20,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://myparking-frontend.onrender.com"
+      "https://myparking-frontend.onrender.com",
+      "https://oscar.informaticamajada.es"
     ],
     credentials: true,
   })
