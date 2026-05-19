@@ -285,10 +285,13 @@
 
 .form { display: flex; flex-direction: column; gap: 0.85rem; }
 .row  { display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
-.field { display: flex; flex-direction: column; gap: 0.3rem; }
+/* min-width: 0 -> permite que la columna del grid se encoja por debajo del
+   ancho mínimo intrínseco del input datetime-local (si no, el segundo campo
+   "Fin" se sale del modal). */
+.field { display: flex; flex-direction: column; gap: 0.3rem; min-width: 0; }
 .label { font-size: 0.78rem; font-weight: 500; color: var(--teal-darker); }
 .input {
-  width: 100%; padding: 0.6rem 0.85rem;
+  width: 100%; max-width: 100%; min-width: 0; padding: 0.6rem 0.85rem;
   border: 1.5px solid rgba(47,93,91,0.18); border-radius: var(--radius-sm);
   font-family: var(--font-body); font-size: 0.9rem; color: var(--teal-darker);
   background: var(--surface); outline: none; transition: border-color 0.15s; min-height: 42px;

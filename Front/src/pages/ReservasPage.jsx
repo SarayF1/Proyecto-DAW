@@ -28,6 +28,10 @@ async function downloadReciboReserva(reserva, user) {
     const mins = Math.round((fin - inicio) / 60000);
     const horas = mins / 60;
 
+    // Estado coherente con la lista: depende de si la hora de fin ya pasó,
+    // no del valor crudo de reserva.Estado (que puede venir desfasado).
+    const estado = fin.getTime() > Date.now() ? "EN CURSO" : "FINALIZADA";
+
     const tarifa = Number(reserva.tarifa ?? 0);
     const pagado = Number(reserva.pagado ?? tarifa * horas);
     const reembolsado = Number(reserva.reembolsado ?? 0);
@@ -114,7 +118,7 @@ async function downloadReciboReserva(reserva, user) {
         ["Fecha inicio", format(inicio, "dd/MM/yyyy HH:mm", { locale: es })],
         ["Fecha fin", format(fin, "dd/MM/yyyy HH:mm", { locale: es })],
         ["Duración", `${mins} min (${horas.toFixed(2)} h)`],
-        ["Estado", reserva.Estado || "–"],
+        ["Estado", estado],
       ],
       theme: "plain",
       styles: {
@@ -194,7 +198,7 @@ async function downloadReciboReserva(reserva, user) {
     });
 
     // ── Nota sobre estado ──
-    if (reserva.Estado === "EN CURSO") {
+    if (estado === "EN CURSO") {
       doc.setTextColor(...GREY);
       doc.setFontSize(8);
       doc.setFont("helvetica", "italic");
@@ -242,6 +246,9 @@ export default function ReservasPage() {
   const [reservas, setReservas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("ALL");
+  // "tick" fuerza un re-render periódico para que el estado y la cuenta
+  // atrás se mantengan al día sin tener que recargar la página.
+  const [, setTick] = useState(0);
 
   useEffect(() => {
     reservasApi
@@ -251,12 +258,25 @@ export default function ReservasPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const filtered = reservas.filter((r) =>
-    filter === "ALL" ? true : r.Estado === filter,
-  );
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 30_000);
+    return () => clearInterval(id);
+  }, []);
 
-  const enCurso = reservas.filter((r) => r.Estado === "EN CURSO").length;
-  const finalizadas = reservas.filter((r) => r.Estado === "FINALIZADA").length;
+  // El estado real de una reserva NO se decide solo por r.Estado: el backend
+  // puede marcarla como FINALIZADA antes de tiempo si el reloj del servidor
+  // va adelantado respecto a la hora local (desfase horario). Una reserva
+  // sigue "EN CURSO" mientras su hora de fin no haya pasado todavía.
+  const esEnCurso = (r) => new Date(r.Fecha_fin).getTime() > Date.now();
+
+  const filtered = reservas.filter((r) => {
+    if (filter === "ALL") return true;
+    if (filter === "EN CURSO") return esEnCurso(r);
+    return !esEnCurso(r); // FINALIZADA
+  });
+
+  const enCurso = reservas.filter(esEnCurso).length;
+  const finalizadas = reservas.length - enCurso;
 
   if (loading)
     return (
@@ -347,7 +367,7 @@ export default function ReservasPage() {
               const minRest = mins % 60;
               const durStr =
                 horas > 0 ? `${horas}h ${minRest}m` : `${minRest}m`;
-              const isEnCurso = r.Estado === "EN CURSO";
+              const isEnCurso = esEnCurso(r);
               return (
                 <motion.div
                   key={r.idReserva}
